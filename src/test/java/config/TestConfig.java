@@ -42,15 +42,11 @@ public class TestConfig {
     // ===== Midtrans Sandbox Simulator =====
     public static final String MIDTRANS_SIMULATOR_URL = "https://simulator.sandbox.midtrans.com";
 
-    // ===== Route Paths =====
-    public static final String PATH_LOGIN               = "/login";
-    public static final String PATH_UKT                 = "/ukt";
-    public static final String PATH_UKT_CHECKOUT        = "/ukt/checkout";
-    public static final String PATH_UKT_BAYAR           = "/ukt/bayar";
-    public static final String PATH_UKT_SUCCESS         = "/ukt/success";
-    public static final String PATH_ADMIN_UKT           = "/adminpage/ukt";
-    public static final String PATH_ADMIN_KRS           = "/adminpage/kelolawaktukrs";
-    public static final String PATH_ADMIN_KRS_ADD       = "/adminpage/kelolawaktukrs/addform";
+    // ===== UKT Paths =====
+    public static final String PATH_LOGIN               = "/loginpage";
+
+    // ===== Library Paths =====
+    public static final String PATH_LIBRARY_BOOKS       = "/library/books";
 
     private TestConfig() {
         // Utility class — no instantiation

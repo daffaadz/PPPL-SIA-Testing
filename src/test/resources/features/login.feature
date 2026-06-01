@@ -1,4 +1,3 @@
-#language: id
 Feature: Login Mahasiswa dan Admin
   Sebagai pengguna SIA-UGN
   Saya ingin dapat login ke sistem
