@@ -1,5 +1,6 @@
 package pages;
 
+import config.TestConfig;
 import org.openqa.selenium.By;
 
 /**
@@ -10,21 +11,16 @@ import org.openqa.selenium.By;
  */
 public class LoginPage extends BasePage {
 
-    // ─── Locators ─────────────────────────────────────────────────────────────
     private static final By EMAIL_INPUT    = By.cssSelector("input[type='email'], input[name='email'], input[id='email']");
     private static final By PASSWORD_INPUT = By.cssSelector("input[type='password'], input[name='password'], input[id='password']");
     private static final By LOGIN_BUTTON   = By.cssSelector("button[type='submit']");
-    private static final By ERROR_MESSAGE  = By.cssSelector("[role='alert'], .error-message, [data-sonner-toast]");
+    private static final By ERROR_BOX      = By.xpath("//h3[contains(text(),'Terjadi Kesalahan')]/..");
+    private static final By ERROR_MESSAGE  = By.xpath("//h3[contains(text(),'Terjadi Kesalahan')]/following-sibling::p");
     private static final By PAGE_HEADING   = By.cssSelector("h1, h2");
     private static final By FORM_CONTAINER = By.cssSelector("form");
 
-    // ─── Actions ──────────────────────────────────────────────────────────────
-
-    /**
-     * Navigate directly to the login page.
-     */
     public LoginPage openLoginPage() {
-        navigateToPath("/login");
+        navigateToPath(TestConfig.PATH_LOGIN);
         waitForPresence(FORM_CONTAINER);
         return this;
     }
@@ -46,10 +42,21 @@ public class LoginPage extends BasePage {
     }
 
     /**
-     * Click the login/submit button.
+     * Click the login/submit button using JavaScript to avoid issues
+     * where the button becomes disabled (isSubmitting=true) during API call.
+     * After JS click, we wait for the button to no longer show "Signing in"
+     * (i.e., the API call has completed) before returning.
      */
     public LoginPage clickLoginButton() {
-        click(LOGIN_BUTTON);
+        jsClick(LOGIN_BUTTON);
+        waitFor(d -> {
+            try {
+                String btnText = d.findElement(LOGIN_BUTTON).getText();
+                return !btnText.contains("Signing in");
+            } catch (Exception e) {
+                return true;
+            }
+        });
         return this;
     }
 
@@ -63,15 +70,24 @@ public class LoginPage extends BasePage {
         clickLoginButton();
     }
 
-    // ─── Assertions ───────────────────────────────────────────────────────────
-
-    /**
-     * Checks whether login was successful by verifying URL changed from /login.
-     */
     public boolean isLoginSuccessful() {
         try {
-            // Wait for redirect away from /login
-            waitFor(driver -> !driver.getCurrentUrl().contains("/login"));
+            waitFor(driver -> {
+                String url = driver.getCurrentUrl();
+                return url.contains("/dashboard") || url.contains("/adminpage");
+            });
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        By byHeading = By.xpath("//h3[normalize-space(text())='Terjadi Kesalahan']");
+        try {
+            org.openqa.selenium.support.ui.WebDriverWait shortWait =
+                new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(5));
+            shortWait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(byHeading));
             return true;
         } catch (Exception e) {
             return false;
@@ -79,22 +95,15 @@ public class LoginPage extends BasePage {
     }
 
     /**
-     * Returns true if the error toast/message is displayed after failed login.
-     */
-    public boolean isErrorMessageDisplayed() {
-        try {
-            waitForToast(ERROR_MESSAGE);
-            return true;
-        } catch (Exception e) {
-            return isDisplayed(ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Get the text of the error message if displayed.
+     * Get the error text from the <p> element inside the ErrorMessageBox.
+     * Returns empty string if not found.
      */
     public String getErrorMessageText() {
-        return getText(ERROR_MESSAGE);
+        try {
+            return getText(ERROR_MESSAGE);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     /**

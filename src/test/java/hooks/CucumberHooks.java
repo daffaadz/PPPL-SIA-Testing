@@ -12,8 +12,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,26 +19,11 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * CucumberHooks — Global lifecycle hooks for the test suite.
- *
- * @Before  — Initializes WebDriver before each scenario
- * @After   — Takes screenshot on failure, then quits WebDriver
- */
 public class CucumberHooks {
 
-    private static final DateTimeFormatter TIMESTAMP_FMT =
-            DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
-
-    // ─── @Before ─────────────────────────────────────────────────────────────
-
+    private static final DateTimeFormatter TIMESTAMP_FMT = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
     public static WebDriver driver;
 
-    /**
-     * Runs before every scenario.
-     * Initializes the ChromeDriver directly.
-     * Navigates to the base URL to ensure a clean starting state.
-     */
     @Before(order = 0)
     public void setUp(Scenario scenario) {
         System.out.println("\n========================================");
@@ -58,9 +41,9 @@ public class CucumberHooks {
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        
+
         driver = new ChromeDriver(options);
-        
+
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(TestConfig.PAGE_LOAD_TIMEOUT_SECONDS));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(TestConfig.IMPLICIT_WAIT_SECONDS));
         driver.manage().window().maximize();
@@ -68,13 +51,6 @@ public class CucumberHooks {
         driver.get(TestConfig.BASE_URL);
     }
 
-    // ─── @After ──────────────────────────────────────────────────────────────
-
-    /**
-     * Runs after every scenario.
-     * - On FAILURE: captures a screenshot and attaches it to the Cucumber report.
-     * - Always: quits the WebDriver to release resources.
-     */
     @After(order = 0)
     public void tearDown(Scenario scenario) {
         if (scenario.isFailed()) {
@@ -92,21 +68,11 @@ public class CucumberHooks {
         }
     }
 
-    // ─── Private Helpers ──────────────────────────────────────────────────────
-
-    /**
-     * Captures a screenshot and attaches it to the Cucumber scenario report.
-     * Also saves the file to {@link TestConfig#SCREENSHOT_DIR} for local inspection.
-     */
     private void takeScreenshot(WebDriver driver, Scenario scenario) {
         try {
-            // Capture screenshot as byte array
             byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-
-            // Attach to Cucumber HTML report (appears inline in the report)
             scenario.attach(screenshotBytes, "image/png", "Screenshot on Failure");
 
-            // Also save to local file system
             String timestamp = LocalDateTime.now().format(TIMESTAMP_FMT);
             String safeName = scenario.getName()
                     .replaceAll("[^a-zA-Z0-9_\\-]", "_")
