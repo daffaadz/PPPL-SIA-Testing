@@ -47,6 +47,7 @@ public class TestConfig {
 
     // ===== Library Paths =====
     public static final String PATH_LIBRARY_BOOKS       = "/library/books";
+    public static final String PATH_LIBRARY_SUGGESTIONS = "/library/suggestions";
 
     private TestConfig() {
         // Utility class — no instantiation
