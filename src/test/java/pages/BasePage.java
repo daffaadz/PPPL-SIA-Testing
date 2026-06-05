@@ -12,11 +12,12 @@ import java.time.Duration;
 
 /**
  * BasePage — Abstract base class for all Page Object Models.
- *
- * Provides common wait utilities, navigation helpers, and element interaction
- * methods that all page objects can inherit and use.
  */
 public abstract class BasePage {
+
+    private static final By SUCCESS_TOAST = By.xpath(
+            "//*[@data-sonner-toast] | //*[contains(text(),'berhasil') or contains(text(),'berhasil')]"
+    );
 
     protected WebDriver driver;
     protected WebDriverWait wait;
@@ -27,11 +28,6 @@ public abstract class BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    // ─── Navigation ──────────────────────────────────────────────────────────
-
-    /**
-     * Navigate to an absolute URL.
-     */
     public void navigateTo(String url) {
         driver.get(url);
     }
@@ -57,11 +53,6 @@ public abstract class BasePage {
         return driver.getTitle();
     }
 
-    // ─── Wait Utilities ───────────────────────────────────────────────────────
-
-    /**
-     * Wait until an element is visible on the page.
-     */
     protected WebElement waitForVisibility(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
@@ -108,11 +99,6 @@ public abstract class BasePage {
         return wait.until(condition);
     }
 
-    // ─── Element Interaction ──────────────────────────────────────────────────
-
-    /**
-     * Click an element after waiting for it to be clickable.
-     */
     protected void click(By locator) {
         waitForClickable(locator).click();
     }
@@ -194,12 +180,17 @@ public abstract class BasePage {
         return attr != null && attr.contains(value);
     }
 
-    /**
-     * Wait briefly for toast/snackbar messages to appear.
-     * Uses a shorter timeout suitable for transient notifications.
-     */
     protected WebElement waitForToast(By locator) {
         WebDriverWait toastWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         return toastWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public boolean isSuccessToastDisplayed() {
+        try {
+            waitForToast(SUCCESS_TOAST);
+            return true;
+        } catch (Exception e) {
+            return isDisplayed(SUCCESS_TOAST);
+        }
     }
 }

@@ -170,7 +170,7 @@ public class LibraryBooksSteps {
     @Then("notifikasi pemesanan buku berhasil ditampilkan")
     public void verifyOrderSuccessNotification() {
         Assertions.assertTrue(
-                libraryBooksPage.isOrderSuccessToastDisplayed(),
+                libraryBooksPage.isSuccessToastDisplayed(),
                 "Notifikasi 'Buku berhasil dipesan' seharusnya ditampilkan setelah pemesanan."
         );
     }

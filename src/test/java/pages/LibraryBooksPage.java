@@ -25,7 +25,6 @@ public class LibraryBooksPage extends BasePage {
     private static final By EMPTY_STATE        = By.xpath("//*[contains(text(),'Buku tidak ditemukan')]");
 
     // ─── Locators — Search Bar ────────────────────────────────────────────────
-    // Search input: text input in the search section (accompanied by Search icon)
     private static final By SEARCH_INPUT       = By.cssSelector(
             "input[type='text'][placeholder*='Cari'], input[type='text'][placeholder*='judul']"
     );
@@ -34,25 +33,17 @@ public class LibraryBooksPage extends BasePage {
     );
 
     // ─── Locators — Category Pills ────────────────────────────────────────────
-    // "Semua" pill — always first button in the pill group
     private static final By SEMUA_PILL         = By.xpath(
             "//button[normalize-space(text())='Semua']"
     );
 
     // ─── Locators — Book Cards ────────────────────────────────────────────────
-    // All book cards rendered as a grid section
     private static final By BOOK_GRID          = By.cssSelector(
             "section.grid"
     );
     // Generic "Pesan" button — any visible order button in the card grid
     private static final By ANY_ORDER_BUTTON   = By.xpath(
             "//button[normalize-space(text())='Pesan' or contains(normalize-space(text()),'Pesan')]"
-    );
-
-    // ─── Locators — Toast / Notification ─────────────────────────────────────
-    // Sonner toast library — success toast
-    private static final By SUCCESS_TOAST      = By.xpath(
-            "//*[@data-sonner-toast] | //*[contains(text(),'berhasil dipesan') or contains(text(),'Buku berhasil')]"
     );
 
     // ─── Actions ──────────────────────────────────────────────────────────────
@@ -225,17 +216,5 @@ public class LibraryBooksPage extends BasePage {
      */
     public boolean isAnyOrderButtonVisible() {
         return isDisplayed(ANY_ORDER_BUTTON);
-    }
-
-    /**
-     * Returns true if the order success toast/notification is displayed.
-     */
-    public boolean isOrderSuccessToastDisplayed() {
-        try {
-            waitForToast(SUCCESS_TOAST);
-            return true;
-        } catch (Exception e) {
-            return isDisplayed(SUCCESS_TOAST);
-        }
     }
 }
