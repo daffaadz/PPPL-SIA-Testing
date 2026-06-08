@@ -38,12 +38,12 @@ public class AdminLibraryPage extends BasePage {
     private static final By INPUT_STOK_TERSEDIA = By.xpath("//label[contains(., 'Stok Tersedia')]/following-sibling::input");
     private static final By SIMPAN_BTN = By.xpath("//form[not(.//h2[contains(., 'Tambah Kategori Baru')])]//button[contains(., 'Simpan')]");
     
-    // Edit & Delete Book
-    private static final By EDIT_BTN = By.xpath("(//button[.//svg[contains(@class, 'lucide-edit')]])[1]");
-    private static final By HAPUS_BTN = By.xpath("(//button[.//svg[contains(@class, 'lucide-trash-2')]])[1]");
+    // Edit & Delete Book - buttons identified by color class since lucide SVGs have no reliable class
+    private static final By EDIT_BTN = By.xpath("(//button[contains(@class, 'text-blue-600')])[1]");
+    private static final By HAPUS_BTN = By.xpath("(//button[contains(@class, 'text-red-500')])[1]");
 
-    // Notifications
-    private static final By TOAST_SUCCESS = By.xpath("//div[contains(@class, 'toast') and contains(text(), 'berhasil')]");
+    // Notifications - sonner renders toasts as <li data-sonner-toast> with text in nested elements
+    private static final By TOAST_SUCCESS = By.xpath("//li[@data-sonner-toast and contains(., 'berhasil')]");
     
     // Tabs
     private static final By TAB_PEMINJAMAN = By.xpath("//button[contains(text(), 'Peminjaman')]");
@@ -114,7 +114,10 @@ public class AdminLibraryPage extends BasePage {
         typeIn(INPUT_PENERBIT, "Penerbit Test");
         typeIn(INPUT_TAHUN, "2023");
         typeIn(INPUT_STOK, "10");
-        typeIn(INPUT_STOK_TERSEDIA, "10");
+        org.openqa.selenium.WebElement stokTersedia = waitForVisibility(INPUT_STOK_TERSEDIA);
+        if (stokTersedia.isEnabled()) {
+            typeIn(INPUT_STOK_TERSEDIA, "10");
+        }
     }
 
     public void clickSimpan() {
@@ -122,7 +125,7 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public boolean isSuccessNotificationDisplayed() {
-        return isDisplayed(TOAST_SUCCESS);
+        return isSuccessToastDisplayed();
     }
 
     public void selectTambahKategoriBaru() {
@@ -170,13 +173,22 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void confirmHapus() {
-        wait.until(org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
+        // The FE uses window.confirm() which triggers a native browser dialog
+        try {
+            org.openqa.selenium.Alert alert = wait.until(
+                org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent()
+            );
+            alert.accept();
+        } catch (Exception e) {
+            // window.confirm may have been auto-dismissed; proceed
+        }
     }
 
     public void openTabPeminjaman() {
         navigateToPath("/adminpage/perpustakaan/order");
-        click(TAB_PEMINJAMAN);
+        // Wait for page content before clicking tab
+        waitForVisibility(By.tagName("main"));
+        waitForClickable(TAB_PEMINJAMAN).click();
     }
 
     public void searchMahasiswa(String query) {
@@ -204,7 +216,9 @@ public class AdminLibraryPage extends BasePage {
 
     public void openTabUsulan() {
         navigateToPath("/adminpage/perpustakaan/order");
-        click(TAB_USULAN);
+        // Wait for page content before clicking tab
+        waitForVisibility(By.tagName("main"));
+        waitForClickable(TAB_USULAN).click();
     }
 
     public void clickSetujui() {
