@@ -173,15 +173,10 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void confirmHapus() {
-        // The FE uses window.confirm() which triggers a native browser dialog
-        try {
-            org.openqa.selenium.Alert alert = wait.until(
-                org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent()
-            );
-            alert.accept();
-        } catch (Exception e) {
-            // window.confirm may have been auto-dismissed; proceed
-        }
+        // The FE now uses a custom modal dialog (AlertConfirmationRedDialog) instead of window.confirm
+        By confirmBtnModal = By.xpath("//div[@data-slot='alert-dialog-content']//button[contains(., 'Hapus')]");
+        waitForVisibility(confirmBtnModal);
+        click(confirmBtnModal);
     }
 
     public void openTabPeminjaman() {
