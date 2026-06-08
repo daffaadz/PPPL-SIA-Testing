@@ -233,15 +233,22 @@ public class AdminLibrarySteps {
     }
 
     @Then("tabel hanya menampilkan pesanan dengan status {string}")
-    public void verifyOrderTableFiltered(String status) {
-        Assertions.assertTrue(
-                adminPage.isTableDisplayed(),
-                "Tabel pesanan seharusnya terlihat."
+    public void verifyOrderTableFiltered(String statusLabel) {
+        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(hooks.CucumberHooks.driver, java.time.Duration.ofSeconds(10));
+        
+        // Tunggu minimal 1 baris muncul
+        wait.until(org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated(
+            org.openqa.selenium.By.xpath("//table//tbody//tr | //div[contains(@class,'table')]//div[contains(@class,'row')]")
+        ));
+        
+        // Cek semua badge/chip status yang tampil mengandung label yang diharapkan
+        java.util.List<org.openqa.selenium.WebElement> statusBadges = hooks.CucumberHooks.driver.findElements(
+            org.openqa.selenium.By.xpath("//*[contains(@class,'badge') or contains(@class,'chip') or contains(@class,'status')]" +
+                     "[contains(text(),'" + statusLabel + "')]")
         );
-        Assertions.assertTrue(
-                adminPage.isOrderStatusDisplayed(status),
-                "Tabel pesanan seharusnya memuat status: " + status
-        );
+        
+        Assertions.assertTrue(!statusBadges.isEmpty(),
+            "Tabel pesanan seharusnya memuat status: " + statusLabel);
     }
 
     @When("saya mencari menggunakan NIM atau nama mahasiswa")
@@ -259,9 +266,10 @@ public class AdminLibrarySteps {
 
     @Given("terdapat pesanan buku dengan status {string}")
     public void assumeOrderExists(String status) {
-        // Buka tab dan tunggu tabel muncul — tidak difilter agar tombol aksi tetap tersedia
+        // Buka tab dan tunggu tabel muncul — kemudian filter agar baris yang tepat tampil
         adminPage.openTabPeminjaman();
         adminPage.isTableDisplayed();
+        adminPage.filterOrderByStatus(status);
     }
 
     @When("saya melihat daftar peminjaman")

@@ -175,6 +175,22 @@ public class AdminLibraryPage extends BasePage {
         click(optionLocator);
     }
 
+    public void filterOrderByStatus(String statusLabel) {
+        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(10));
+        // Klik dropdown filter status
+        org.openqa.selenium.WebElement dropdown = wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(
+            By.xpath("//button[contains(@class,'dropdown') or contains(.,'Semua Status') or contains(.,'Filter')]")
+        ));
+        dropdown.click();
+        // Pilih status
+        org.openqa.selenium.WebElement option = wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(
+            By.xpath("//*[contains(text(),'" + statusLabel + "') and not(self::button[@disabled])]")
+        ));
+        option.click();
+        // Tunggu tabel reload
+        try { Thread.sleep(1000); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+    }
+
     public boolean isOrderStatusDisplayed(String status) {
         By locator = By.xpath("//td[contains(., '" + status + "')]");
         try {
@@ -247,9 +263,19 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void fillPesanRespon(String pesan) {
-        By modalHeader = By.xpath("//h2[contains(., 'Detail Usulan Buku')]");
-        waitForVisibility(modalHeader);
-        typeIn(By.name("respon"), pesan);
+        org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(15));
+        
+        // Tunggu modal container muncul
+        wait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(
+            By.xpath("//div[contains(@class,'fixed') and contains(@class,'inset-0') and contains(@class,'z-50')]")
+        ));
+        
+        // Cari textarea dengan placeholder
+        org.openqa.selenium.WebElement textarea = wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(
+            By.xpath("//textarea[@placeholder='Tuliskan respon untuk mahasiswa...']")
+        ));
+        textarea.clear();
+        textarea.sendKeys(pesan);
     }
 
     public boolean isOrderDetailPageLoaded() {
