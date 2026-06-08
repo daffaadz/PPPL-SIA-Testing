@@ -78,7 +78,12 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public boolean isTableDisplayed() {
-        return isDisplayed(TABLE_KATALOG);
+        try {
+            waitForVisibility(TABLE_KATALOG);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void searchKeyword(String keyword) {
@@ -172,7 +177,12 @@ public class AdminLibraryPage extends BasePage {
 
     public boolean isOrderStatusDisplayed(String status) {
         By locator = By.xpath("//td[contains(., '" + status + "')]");
-        return isDisplayed(locator);
+        try {
+            waitForVisibility(locator);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void confirmHapus() {

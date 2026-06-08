@@ -236,7 +236,11 @@ public class AdminLibrarySteps {
     public void verifyOrderTableFiltered(String status) {
         Assertions.assertTrue(
                 adminPage.isTableDisplayed(),
-                "Tabel pesanan seharusnya terfilter."
+                "Tabel pesanan seharusnya terlihat."
+        );
+        Assertions.assertTrue(
+                adminPage.isOrderStatusDisplayed(status),
+                "Tabel pesanan seharusnya memuat status: " + status
         );
     }
 
