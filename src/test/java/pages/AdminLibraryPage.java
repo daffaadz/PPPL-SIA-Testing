@@ -227,6 +227,12 @@ public class AdminLibraryPage extends BasePage {
         click(DETAIL_BTN);
     }
 
+    public void clickDetailFirstSuggestion() {
+        // Pastikan kita sudah di tab Usulan dengan menunggu header tabel usulan muncul
+        waitForVisibility(By.xpath("//th[contains(., 'Penulis')]"));
+        click(DETAIL_BTN);
+    }
+
     public void clickKembalikanFirstOrder() {
         click(KEMBALIKAN_BTN);
     }
@@ -247,9 +253,15 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void fillPesanRespon(String pesan) {
-        By modalHeader = By.xpath("//h2[contains(., 'Detail Usulan Buku')]");
-        waitForVisibility(modalHeader);
-        typeIn(By.name("respon"), pesan);
+        // Tunggu modal muncul - dari screenshot pakai div fixed dengan class tertentu
+        waitForVisibility(By.xpath("//div[contains(@class,'fixed') and contains(@class,'inset-0')]"));
+        
+        // Cari textarea dengan placeholder
+        By textareaLocator = By.xpath("//textarea[@placeholder='Tuliskan respon untuk mahasiswa...']");
+        org.openqa.selenium.WebElement textarea = waitForClickable(textareaLocator);
+        
+        textarea.clear();
+        textarea.sendKeys(pesan);
     }
 
     public boolean isOrderDetailPageLoaded() {
