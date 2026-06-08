@@ -179,14 +179,16 @@ public class AdminLibraryPage extends BasePage {
         org.openqa.selenium.support.ui.WebDriverWait wait = new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(10));
         // Klik dropdown filter status
         org.openqa.selenium.WebElement dropdown = wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(
-            By.xpath("//button[contains(@class,'dropdown') or contains(.,'Semua Status') or contains(.,'Filter')]")
+            By.xpath("//div[contains(@class, 'min-w-[180px]')]//div[contains(@class, 'cursor-pointer')]")
         ));
         dropdown.click();
+        
         // Pilih status
         org.openqa.selenium.WebElement option = wait.until(org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable(
-            By.xpath("//*[contains(text(),'" + statusLabel + "') and not(self::button[@disabled])]")
+            By.xpath("//div[contains(@class, 'absolute')]//div[contains(@class, 'cursor-pointer') and contains(text(), '" + statusLabel + "')]")
         ));
         option.click();
+        
         // Tunggu tabel reload
         try { Thread.sleep(1000); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
     }
