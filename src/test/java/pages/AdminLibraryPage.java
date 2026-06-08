@@ -51,14 +51,14 @@ public class AdminLibraryPage extends BasePage {
     
     // Order Filters
     private static final By DROPDOWN_STATUS_TRIGGER = By.xpath("//div[contains(@class, 'min-w-[180px]')]//div[contains(@class, 'cursor-pointer')]");
-    private static final By KONFIRMASI_BTN = By.xpath("//button[contains(text(), 'Konfirmasi')]");
-    private static final By KEMBALIKAN_BTN = By.xpath("//button[contains(text(), 'Kembalikan')]");
+    private static final By KONFIRMASI_BTN = By.xpath("//button[contains(., 'Konfirmasi')]");
+    private static final By KEMBALIKAN_BTN = By.xpath("//button[contains(., 'Kembalikan')]");
     private static final By CATATAN_ADMIN = By.name("catatan");
-    private static final By DETAIL_BTN = By.xpath("//button[contains(text(), 'Detail')]");
+    private static final By DETAIL_BTN = By.xpath("//*[self::button or self::a][contains(., 'Detail')]");
     
     // Suggestion Actions
-    private static final By SETUJUI_BTN = By.xpath("//button[contains(text(), 'Setujui')]");
-    private static final By TOLAK_BTN = By.xpath("//button[contains(text(), 'Tolak')]");
+    private static final By SETUJUI_BTN = By.xpath("//button[contains(., 'Setujui')]");
+    private static final By TOLAK_BTN = By.xpath("//button[contains(., 'Tolak')]");
     private static final By PESAN_RESPON = By.name("respon");
     
     public AdminLibraryPage openPage() {
