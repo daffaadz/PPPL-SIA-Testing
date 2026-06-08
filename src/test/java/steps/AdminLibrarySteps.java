@@ -114,7 +114,7 @@ public class AdminLibrarySteps {
     @When("saya menekan tombol {string} pada usulan tersebut")
     public void clickButtonOnSuggestion(String buttonName) {
         if ("Detail".equals(buttonName)) {
-            adminPage.clickDetailFirstSuggestion();
+            adminPage.clickDetailUsulan();
         } else {
             clickButtonByName(buttonName);
         }

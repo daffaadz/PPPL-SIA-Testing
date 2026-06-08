@@ -253,15 +253,19 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void fillPesanRespon(String pesan) {
-        // Tunggu modal muncul - dari screenshot pakai div fixed dengan class tertentu
+        // Tunggu modal muncul
         waitForVisibility(By.xpath("//div[contains(@class,'fixed') and contains(@class,'inset-0')]"));
         
-        // Cari textarea dengan placeholder
+        // Tunggu textarea clickable
         By textareaLocator = By.xpath("//textarea[@placeholder='Tuliskan respon untuk mahasiswa...']");
         org.openqa.selenium.WebElement textarea = waitForClickable(textareaLocator);
         
         textarea.clear();
         textarea.sendKeys(pesan);
+    }
+    
+    public void clickDetailUsulan() {
+        click(By.xpath("//button[contains(., 'Detail')]"));
     }
 
     public boolean isOrderDetailPageLoaded() {
