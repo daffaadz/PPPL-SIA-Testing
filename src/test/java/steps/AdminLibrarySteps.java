@@ -113,11 +113,7 @@ public class AdminLibrarySteps {
 
     @When("saya menekan tombol {string} pada usulan tersebut")
     public void clickButtonOnSuggestion(String buttonName) {
-        if ("Detail".equals(buttonName)) {
-            adminPage.clickDetailUsulan();
-        } else {
-            clickButtonByName(buttonName);
-        }
+        clickButtonByName(buttonName);
     }
 
     @And("saya mengisi form buku dengan data valid \\(judul, penulis, kategori, ISBN, penerbit, tahun, stok)")

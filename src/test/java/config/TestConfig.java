@@ -2,7 +2,7 @@ package config;
 
 public class TestConfig {
 
-    public static final String BASE_URL = "https://fe-sia-ugn.vercel.app";
+    public static final String BASE_URL = "https://fe-sia-ugn.vercel.app/";
     public static final String STUDENT_EMAIL = "handoko@gmail.com";
     public static final String STUDENT_PASSWORD = "hanan123";
     public static final String ADMIN_EMAIL = "admin@gmail.com";
