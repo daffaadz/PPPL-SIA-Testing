@@ -186,8 +186,7 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void confirmHapus() {
-        // The FE now uses a custom modal dialog (AlertConfirmationRedDialog) instead of window.confirm
-        By confirmBtnModal = By.xpath("//div[@data-slot='alert-dialog-content']//button[contains(., 'Hapus') or contains(., 'Menghapus')]");
+        By confirmBtnModal = By.xpath("//div[@data-slot='alert-dialog-footer']//button[@data-slot='button' and contains(., 'Hapus')]");
         waitForVisibility(confirmBtnModal);
         jsClick(confirmBtnModal);
     }
