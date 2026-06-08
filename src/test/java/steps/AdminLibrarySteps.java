@@ -261,6 +261,8 @@ public class AdminLibrarySteps {
     public void assumeOrderExists(String status) {
         // Assume exists for testing
         adminPage.openTabPeminjaman();
+        adminPage.selectFilterStatus(status);
+        adminPage.isTableDisplayed();
     }
 
     @When("saya melihat daftar peminjaman")
@@ -383,6 +385,8 @@ public class AdminLibrarySteps {
         // Assume exists
         if ("Usulan".equals(tab)) {
             adminPage.openTabUsulan();
+            adminPage.selectFilterStatus(status);
+            adminPage.isTableDisplayed();
         }
     }
 

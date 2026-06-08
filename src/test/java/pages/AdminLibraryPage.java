@@ -248,6 +248,8 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void fillPesanRespon(String pesan) {
+        By modalHeader = By.xpath("//h2[contains(., 'Detail Usulan Buku')]");
+        waitForVisibility(modalHeader);
         typeIn(PESAN_RESPON, pesan);
     }
 }
