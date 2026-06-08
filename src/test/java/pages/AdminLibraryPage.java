@@ -209,8 +209,18 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void fillCatatanAdmin(String catatan) {
-        if(isDisplayed(CATATAN_ADMIN)) {
-            typeIn(CATATAN_ADMIN, catatan);
+        try {
+            org.openqa.selenium.support.ui.WebDriverWait waitPrompt = new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(5));
+            org.openqa.selenium.Alert alert = waitPrompt.until(org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent());
+            if (catatan != null && !catatan.isEmpty()) {
+                alert.sendKeys(catatan);
+            }
+            alert.accept();
+        } catch (org.openqa.selenium.TimeoutException e) {
+            // Fallback just in case it's using an HTML input instead of native prompt
+            if(isDisplayed(CATATAN_ADMIN)) {
+                typeIn(CATATAN_ADMIN, catatan);
+            }
         }
     }
 
