@@ -259,9 +259,8 @@ public class AdminLibrarySteps {
 
     @Given("terdapat pesanan buku dengan status {string}")
     public void assumeOrderExists(String status) {
-        // Assume exists for testing
+        // Buka tab dan tunggu tabel muncul — tidak difilter agar tombol aksi tetap tersedia
         adminPage.openTabPeminjaman();
-        adminPage.selectFilterStatus(status);
         adminPage.isTableDisplayed();
     }
 
@@ -382,10 +381,9 @@ public class AdminLibrarySteps {
 
     @Given("terdapat usulan buku dengan status {string} di tab {string}")
     public void assumeSuggestionExists(String status, String tab) {
-        // Assume exists
+        // Buka tab dan tunggu tabel muncul — tidak difilter agar tombol Detail tetap tersedia
         if ("Usulan".equals(tab)) {
             adminPage.openTabUsulan();
-            adminPage.selectFilterStatus(status);
             adminPage.isTableDisplayed();
         }
     }
