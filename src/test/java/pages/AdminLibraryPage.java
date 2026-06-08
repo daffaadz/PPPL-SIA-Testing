@@ -45,9 +45,9 @@ public class AdminLibraryPage extends BasePage {
     // Notifications - sonner renders toasts as <li data-sonner-toast> with text in nested elements
     private static final By TOAST_SUCCESS = By.xpath("//li[@data-sonner-toast and contains(., 'berhasil')]");
     
-    // Tabs
-    private static final By TAB_PEMINJAMAN = By.xpath("//button[contains(text(), 'Peminjaman')]");
-    private static final By TAB_USULAN = By.xpath("//button[contains(text(), 'Usulan')]");
+    // Tabs - TypeTabs renders text inside <span> child, so use dot (.) not text()
+    private static final By TAB_PEMINJAMAN = By.xpath("//button[contains(., 'Peminjaman')]");
+    private static final By TAB_USULAN = By.xpath("//button[contains(., 'Usulan')]");
     
     // Order Filters
     private static final By DROPDOWN_STATUS_TRIGGER = By.xpath("//div[contains(@class, 'min-w-[180px]')]//div[contains(@class, 'cursor-pointer')]");
