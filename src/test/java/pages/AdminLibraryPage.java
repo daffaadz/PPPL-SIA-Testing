@@ -98,7 +98,8 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void fillFormBukuValid() {
-        typeIn(INPUT_JUDUL, "Buku Test");
+        long timestamp = System.currentTimeMillis();
+        typeIn(INPUT_JUDUL, "Buku Test " + timestamp);
         typeIn(INPUT_PENULIS, "Penulis Test");
         
         // Select category if available
@@ -110,7 +111,9 @@ public class AdminLibraryPage extends BasePage {
             click(INPUT_ISBN);
         }
         
-        typeIn(INPUT_ISBN, "1234567890");
+        // Use part of timestamp to ensure ISBN is within length limits but unique enough
+        String uniqueIsbn = "1234" + (timestamp % 1000000);
+        typeIn(INPUT_ISBN, uniqueIsbn);
         typeIn(INPUT_PENERBIT, "Penerbit Test");
         typeIn(INPUT_TAHUN, "2023");
         typeIn(INPUT_STOK, "10");
