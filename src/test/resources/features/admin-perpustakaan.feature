@@ -69,8 +69,8 @@ Feature: Manajemen Perpustakaan (Admin)
   @Library @Admin @Order @Filter
   Scenario: Memfilter daftar peminjaman berdasarkan status
     Given saya berada di tab "Peminjaman" pada Manajemen Peminjaman & Usulan
-    When saya memilih filter status "Dibatalkan"
-    Then tabel hanya menampilkan pesanan dengan status "Dibatalkan"
+    When saya memilih filter status "Dipinjam"
+    Then tabel hanya menampilkan pesanan dengan status "Dipinjam"
 
   @Library @Admin @Order @Search
   Scenario: Mencari pesanan peminjaman mahasiswa
