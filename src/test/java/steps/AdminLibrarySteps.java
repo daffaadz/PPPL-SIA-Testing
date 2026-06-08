@@ -180,6 +180,8 @@ public class AdminLibrarySteps {
     @And("saya mengubah jumlah {string} menjadi lebih banyak")
     public void editStok(String field) {
         adminPage.updateStok("20");
+        adminPage.updateStokTersedia("20");
+        adminPage.updatePenerbit("Penerbit Diperbarui");
     }
 
     @And("informasi stok buku tersebut di tabel berubah")
@@ -218,7 +220,6 @@ public class AdminLibrarySteps {
 
     @Given("saya berada di tab {string} pada Manajemen Peminjaman & Usulan")
     public void openTabPeminjaman(String tab) {
-        adminPage.openPage();
         if ("Peminjaman".equals(tab)) {
             adminPage.openTabPeminjaman();
         } else if ("Usulan".equals(tab)) {
@@ -228,7 +229,7 @@ public class AdminLibrarySteps {
 
     @When("saya memilih filter status {string}")
     public void selectFilterStatus(String status) {
-        adminPage.filterStatus(status);
+        adminPage.selectFilterStatus(status);
     }
 
     @Then("tabel hanya menampilkan pesanan dengan status {string}")
@@ -255,6 +256,7 @@ public class AdminLibrarySteps {
     @Given("terdapat pesanan buku dengan status {string}")
     public void assumeOrderExists(String status) {
         // Assume exists for testing
+        adminPage.openTabPeminjaman();
     }
 
     @When("saya melihat daftar peminjaman")
@@ -375,6 +377,9 @@ public class AdminLibrarySteps {
     @Given("terdapat usulan buku dengan status {string} di tab {string}")
     public void assumeSuggestionExists(String status, String tab) {
         // Assume exists
+        if ("Usulan".equals(tab)) {
+            adminPage.openTabUsulan();
+        }
     }
 
     @And("saya mengisi pesan respon {string}")
