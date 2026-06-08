@@ -309,7 +309,7 @@ public class AdminLibrarySteps {
     @Then("saya diarahkan ke halaman detail pesanan")
     public void verifyDetailPage() {
         Assertions.assertTrue(
-                adminPage.isDashboardLoaded(), // simplification
+                adminPage.isOrderDetailPageLoaded(),
                 "Halaman detail seharusnya dimuat."
         );
     }
@@ -317,7 +317,7 @@ public class AdminLibrarySteps {
     @And("informasi peminjam, tanggal pinjam, dan jatuh tempo ditampilkan")
     public void verifyDetailInfo() {
         Assertions.assertTrue(
-                adminPage.isDashboardLoaded(), // simplification
+                adminPage.isOrderDetailPageLoaded(),
                 "Informasi detail seharusnya ditampilkan."
         );
     }
@@ -325,7 +325,7 @@ public class AdminLibrarySteps {
     @And("tombol {string} tersedia di halaman detail")
     public void verifyBtnInDetail(String btn) {
         Assertions.assertTrue(
-                adminPage.isDashboardLoaded(), // simplification
+                adminPage.isOrderDetailPageLoaded(),
                 "Tombol seharusnya tersedia."
         );
     }
