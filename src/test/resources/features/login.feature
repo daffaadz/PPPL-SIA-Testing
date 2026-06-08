@@ -14,7 +14,7 @@ Feature: Login Mahasiswa dan Admin
 
   @Login @SmokeTest
   Scenario: Login berhasil sebagai admin
-    When saya memasukkan email "manager@gmail.com" dan password "manager123"
+    When saya memasukkan email "admin@gmail.com" dan password "admin123"
     And saya menekan tombol Login
     Then saya berhasil login dan diarahkan keluar dari halaman login
 
