@@ -161,7 +161,7 @@ public class AdminLibraryPage extends BasePage {
     }
 
     public void clickHapusFirstBook() {
-        click(HAPUS_BTN); // Clicks first match
+        jsClick(HAPUS_BTN); // Use jsClick to bypass any potential overlay or interception issues
     }
 
     public void selectFilterStatus(String status) {
@@ -177,9 +177,9 @@ public class AdminLibraryPage extends BasePage {
 
     public void confirmHapus() {
         // The FE now uses a custom modal dialog (AlertConfirmationRedDialog) instead of window.confirm
-        By confirmBtnModal = By.xpath("//div[@data-slot='alert-dialog-content']//button[contains(., 'Hapus')]");
+        By confirmBtnModal = By.xpath("//div[@data-slot='alert-dialog-content']//button[contains(., 'Hapus') or contains(., 'Menghapus')]");
         waitForVisibility(confirmBtnModal);
-        click(confirmBtnModal);
+        jsClick(confirmBtnModal);
     }
 
     public void openTabPeminjaman() {
