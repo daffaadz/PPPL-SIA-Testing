@@ -20,6 +20,8 @@ public class TestConfig {
     public static final String PATH_LOGIN = "/loginpage";
     public static final String PATH_LIBRARY_BOOKS = "/library/books";
     public static final String PATH_LIBRARY_SUGGESTIONS = "/library/suggestions";
+    public static final String PATH_LIBRARY_ACTIVITIES = "/library/activities";
+    public static final String PATH_LIBRARY_DETAIL_ACTIVITIES = "/library/activities/3";
 
     private TestConfig() {}
 }
