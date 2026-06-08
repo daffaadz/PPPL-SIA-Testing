@@ -389,10 +389,11 @@ public class AdminLibrarySteps {
 
     @Given("terdapat usulan buku dengan status {string} di tab {string}")
     public void assumeSuggestionExists(String status, String tab) {
-        // Buka tab dan tunggu tabel muncul — tidak difilter agar tombol Detail tetap tersedia
+        // Buka tab dan tunggu tabel muncul, lalu filter status
         if ("Usulan".equals(tab)) {
             adminPage.openTabUsulan();
             adminPage.isTableDisplayed();
+            adminPage.filterOrderByStatus(status);
         }
     }
 
