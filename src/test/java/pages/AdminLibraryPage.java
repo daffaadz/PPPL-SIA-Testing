@@ -59,7 +59,7 @@ public class AdminLibraryPage extends BasePage {
     // Suggestion Actions
     private static final By SETUJUI_BTN = By.xpath("//button[contains(., 'Setujui')]");
     private static final By TOLAK_BTN = By.xpath("//button[contains(., 'Tolak')]");
-    private static final By PESAN_RESPON = By.name("respon");
+    private static final By PESAN_RESPON = By.xpath("//textarea[@placeholder='Tuliskan respon untuk mahasiswa...']");
     
     public AdminLibraryPage openPage() {
         navigateToPath("/adminpage/perpustakaan"); 
