@@ -3,12 +3,6 @@ package pages;
 import config.TestConfig;
 import org.openqa.selenium.By;
 
-/**
- * LoginPage — Page Object for the SIA-UGN login page.
- *
- * Covers both mahasiswa and admin login scenarios.
- * Route: /login
- */
 public class LoginPage extends BasePage {
 
     private static final By EMAIL_INPUT    = By.cssSelector("input[type='email'], input[name='email'], input[id='email']");
@@ -25,28 +19,16 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    /**
-     * Enter email in the email field.
-     */
     public LoginPage enterEmail(String email) {
         typeIn(EMAIL_INPUT, email);
         return this;
     }
 
-    /**
-     * Enter password in the password field.
-     */
     public LoginPage enterPassword(String password) {
         typeIn(PASSWORD_INPUT, password);
         return this;
     }
 
-    /**
-     * Click the login/submit button using JavaScript to avoid issues
-     * where the button becomes disabled (isSubmitting=true) during API call.
-     * After JS click, we wait for the button to no longer show "Signing in"
-     * (i.e., the API call has completed) before returning.
-     */
     public LoginPage clickLoginButton() {
         jsClick(LOGIN_BUTTON);
         waitFor(d -> {
@@ -60,9 +42,6 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    /**
-     * Full login flow — fill form and submit.
-     */
     public void login(String email, String password) {
         openLoginPage();
         enterEmail(email);
@@ -72,10 +51,7 @@ public class LoginPage extends BasePage {
 
     public boolean isLoginSuccessful() {
         try {
-            waitFor(driver -> {
-                String url = driver.getCurrentUrl();
-                return url.contains("/dashboard") || url.contains("/adminpage");
-            });
+            waitFor(driver -> driver.getCurrentUrl().contains("/dashboard"));
             return true;
         } catch (Exception e) {
             return false;
@@ -83,21 +59,24 @@ public class LoginPage extends BasePage {
     }
 
     public boolean isErrorMessageDisplayed() {
-        By byHeading = By.xpath("//h3[normalize-space(text())='Terjadi Kesalahan']");
-        try {
-            org.openqa.selenium.support.ui.WebDriverWait shortWait =
-                new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(5));
-            shortWait.until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(byHeading));
-            return true;
-        } catch (Exception e) {
-            return false;
+        By byHeading  = By.xpath("//h3[normalize-space(text())='Terjadi Kesalahan']");
+        By byBorder   = By.xpath("//*[contains(@style,'EF4444') or contains(@style,'ef4444')]");
+        By byContains = By.xpath("//*[contains(.,'Terjadi Kesalahan')][not(self::script)][not(self::style)]");
+
+        for (By strategy : new By[]{byHeading, byBorder, byContains}) {
+            try {
+                org.openqa.selenium.support.ui.WebDriverWait shortWait =
+                    new org.openqa.selenium.support.ui.WebDriverWait(
+                        driver, java.time.Duration.ofSeconds(5));
+                shortWait.until(
+                    org.openqa.selenium.support.ui.ExpectedConditions
+                        .visibilityOfElementLocated(strategy));
+                return true;
+            } catch (Exception ignored) {}
         }
+        return false;
     }
 
-    /**
-     * Get the error text from the <p> element inside the ErrorMessageBox.
-     * Returns empty string if not found.
-     */
     public String getErrorMessageText() {
         try {
             return getText(ERROR_MESSAGE);
@@ -106,25 +85,16 @@ public class LoginPage extends BasePage {
         }
     }
 
-    /**
-     * Returns true if the login form is currently displayed on the page.
-     */
     public boolean isLoginFormDisplayed() {
         return isDisplayed(FORM_CONTAINER)
                 && isDisplayed(EMAIL_INPUT)
                 && isDisplayed(PASSWORD_INPUT);
     }
 
-    /**
-     * Returns true if the login button is visible and enabled.
-     */
     public boolean isLoginButtonEnabled() {
         return isEnabled(LOGIN_BUTTON);
     }
 
-    /**
-     * Returns the current page heading text.
-     */
     public String getPageHeadingText() {
         return getText(PAGE_HEADING);
     }

@@ -8,27 +8,14 @@ import org.junit.jupiter.api.Assertions;
 import pages.LibraryBooksPage;
 import pages.LoginPage;
 
-/**
- * LibraryBooksSteps — Step definitions for library_books.feature.
- *
- * Covers:
- *  - Login as mahasiswa (Background)
- *  - Navigate to /library/books
- *  - Search by keyword (button click and Enter key)
- *  - Filter by category pill
- *  - Order book
- */
 public class LibraryBooksSteps {
 
     private final LoginPage        loginPage        = new LoginPage();
     private final LibraryBooksPage libraryBooksPage = new LibraryBooksPage();
 
-    // ─── Background ──────────────────────────────────────────────────────────
+    private String lastSearchedKeyword = "";
+    private int    initialStock        = 0;
 
-    /**
-     * Background step: login as mahasiswa using credentials from TestConfig.
-     * Re-uses LoginPage which already handles the full login flow.
-     */
     @Given("saya sudah login sebagai mahasiswa")
     public void loginAsMahasiswa() {
         loginPage.login(
@@ -41,9 +28,6 @@ public class LibraryBooksSteps {
         );
     }
 
-    /**
-     * Background step: navigate to the library books catalogue page.
-     */
     @And("saya berada di halaman katalog buku")
     public void navigateToLibraryBooks() {
         libraryBooksPage.openPage();
@@ -52,8 +36,6 @@ public class LibraryBooksSteps {
                 "Halaman katalog buku seharusnya berhasil dimuat."
         );
     }
-
-    // ─── Smoke Test ──────────────────────────────────────────────────────────
 
     @Then("halaman katalog buku ditampilkan dengan benar")
     public void verifyLibraryPageLoaded() {
@@ -71,13 +53,9 @@ public class LibraryBooksSteps {
         );
     }
 
-    // ─── Search — Keyword via Button ─────────────────────────────────────────
-
-    /**
-     * Type keyword in search bar and click "Filter Judul" button.
-     */
     @When("mahasiswa mencari buku dengan kata kunci {string}")
     public void searchBookByKeyword(String keyword) {
+        this.lastSearchedKeyword = keyword;
         libraryBooksPage.typeSearchKeyword(keyword);
         libraryBooksPage.clickFilterJudul();
     }
@@ -99,8 +77,6 @@ public class LibraryBooksSteps {
         );
     }
 
-    // ─── Search — Keyword via Enter Key ──────────────────────────────────────
-
     @When("mahasiswa mengetik kata kunci {string} pada kolom pencarian")
     public void typeKeywordInSearchBar(String keyword) {
         libraryBooksPage.typeSearchKeyword(keyword);
@@ -113,13 +89,10 @@ public class LibraryBooksSteps {
 
     @Then("halaman menampilkan hasil pencarian untuk {string}")
     public void verifySearchResultsLoaded(String keyword) {
-        // After pressing Enter, page should either show results or the empty state,
-        // but must no longer be loading.
         Assertions.assertTrue(
                 libraryBooksPage.isPageLoaded(),
                 "Halaman seharusnya selesai memuat setelah pencarian dengan Enter."
         );
-        // At least one of the two states should be true
         boolean hasResults = libraryBooksPage.areBooksDisplayed();
         boolean isEmpty    = libraryBooksPage.isEmptyStateDisplayed();
         Assertions.assertTrue(
@@ -127,8 +100,6 @@ public class LibraryBooksSteps {
                 "Halaman seharusnya menampilkan hasil buku atau pesan 'Buku tidak ditemukan' untuk kata kunci: " + keyword
         );
     }
-
-    // ─── Filter — Category Pills ──────────────────────────────────────────────
 
     @When("mahasiswa memilih kategori buku {string}")
     public void selectCategoryFilter(String categoryName) {
@@ -152,8 +123,6 @@ public class LibraryBooksSteps {
         );
     }
 
-    // ─── Order Book ───────────────────────────────────────────────────────────
-
     @Given("terdapat buku yang tersedia di halaman katalog")
     public void verifyAvailableBookExists() {
         Assertions.assertTrue(
@@ -172,6 +141,41 @@ public class LibraryBooksSteps {
         Assertions.assertTrue(
                 libraryBooksPage.isSuccessToastDisplayed(),
                 "Notifikasi 'Buku berhasil dipesan' seharusnya ditampilkan setelah pemesanan."
+        );
+    }
+
+    @Then("tombol pesan pada buku tersebut tidak bisa diklik")
+    public void verifyOrderButtonDisabled() {
+        Assertions.assertTrue(
+                libraryBooksPage.isOrderButtonDisabledForBook(lastSearchedKeyword),
+                "Tombol pesan untuk buku yang stoknya kosong seharusnya tidak bisa diklik (disabled)."
+        );
+    }
+
+    @Given("mahasiswa melihat jumlah stok awal buku {string}")
+    public void recordInitialBookStock(String bookTitle) {
+        searchBookByKeyword(bookTitle);
+        initialStock = libraryBooksPage.getAvailableStockForBook(bookTitle);
+    }
+
+    @When("mahasiswa memesan buku {string}")
+    public void orderSpecificBook(String bookTitle) {
+        libraryBooksPage.clickOrderButtonForBook(bookTitle);
+    }
+
+    @Then("jumlah ketersediaan buku {string} berkurang satu")
+    public void verifyStockDecreased(String bookTitle) {
+        verifyOrderSuccessNotification();
+
+        try {
+            libraryBooksPage.waitFor(d -> libraryBooksPage.getAvailableStockForBook(bookTitle) == (initialStock - 1));
+        } catch (Exception ignored) {}
+
+        int currentStock = libraryBooksPage.getAvailableStockForBook(bookTitle);
+        Assertions.assertEquals(
+                initialStock - 1,
+                currentStock,
+                "Stok ketersediaan buku seharusnya berkurang 1 setelah dipesan."
         );
     }
 }

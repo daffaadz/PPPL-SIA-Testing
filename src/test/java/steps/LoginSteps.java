@@ -4,14 +4,9 @@ import pages.LoginPage;
 import io.cucumber.java.en.*;
 import org.junit.jupiter.api.Assertions;
 
-/**
- * LoginSteps — Step definitions for login.feature.
- */
 public class LoginSteps {
 
     private final LoginPage loginPage = new LoginPage();
-
-    // ─── Given ───────────────────────────────────────────────────────────────
 
     @Given("saya membuka halaman login SIA-UGN")
     public void iOpenTheLoginPage() {
@@ -19,8 +14,6 @@ public class LoginSteps {
         Assertions.assertTrue(loginPage.isLoginFormDisplayed(),
                 "Halaman login seharusnya menampilkan form login.");
     }
-
-    // ─── When ────────────────────────────────────────────────────────────────
 
     @When("saya memasukkan email {string} dan password {string}")
     public void iEnterEmailAndPassword(String email, String password) {
@@ -35,10 +28,7 @@ public class LoginSteps {
 
     @When("saya tidak mengisi email dan password")
     public void iDoNotFillEmailAndPassword() {
-        // Leave fields empty — just don't type anything
     }
-
-    // ─── Then ────────────────────────────────────────────────────────────────
 
     @Then("saya berhasil login dan diarahkan keluar dari halaman login")
     public void iSuccessfullyLoginAndRedirected() {

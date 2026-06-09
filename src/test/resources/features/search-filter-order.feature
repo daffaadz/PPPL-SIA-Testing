@@ -54,3 +54,14 @@ Feature: Katalog Buku Perpustakaan
     Given terdapat buku yang tersedia di halaman katalog
     When mahasiswa memesan buku pertama yang tersedia
     Then notifikasi pemesanan buku berhasil ditampilkan
+
+  @Library @Order @NegativeTest
+  Scenario: Memesan buku yang stoknya sedang kosong (tombol disabled)
+    When mahasiswa mencari buku dengan kata kunci "Out of Stock Book"
+    Then tombol pesan pada buku tersebut tidak bisa diklik
+
+  @Library @Order
+  Scenario: Riwayat stok buku berkurang setelah berhasil dipesan
+    Given mahasiswa melihat jumlah stok awal buku "Pemrograman Web dengan Laravel"
+    When mahasiswa memesan buku "Pemrograman Web dengan Laravel"
+    Then jumlah ketersediaan buku "Pemrograman Web dengan Laravel" berkurang satu
