@@ -95,7 +95,7 @@ public abstract class BasePage {
     /**
      * Wait for a custom ExpectedCondition.
      */
-    protected <T> T waitFor(ExpectedCondition<T> condition) {
+    public <T> T waitFor(ExpectedCondition<T> condition) {
         return wait.until(condition);
     }
 
