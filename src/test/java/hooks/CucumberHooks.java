@@ -24,6 +24,9 @@ public class CucumberHooks {
     private static final DateTimeFormatter TIMESTAMP_FMT = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
     public static WebDriver driver;
 
+    private static int passedCount = 0;
+    private static int failedCount = 0;
+
     @Before(order = 0)
     public void setUp(Scenario scenario) {
         System.out.println("\n========================================");
@@ -54,9 +57,11 @@ public class CucumberHooks {
     @After(order = 0)
     public void tearDown(Scenario scenario) {
         if (scenario.isFailed()) {
+            failedCount++;
             System.out.println("✖  FAILED: " + scenario.getName());
             takeScreenshot(driver, scenario);
         } else {
+            passedCount++;
             System.out.println("✔  PASSED: " + scenario.getName());
         }
 
@@ -66,6 +71,17 @@ public class CucumberHooks {
             driver.quit();
             driver = null;
         }
+    }
+
+    @io.cucumber.java.AfterAll
+    public static void printSummary() {
+        System.out.println("\n========================================");
+        System.out.println("   TEST EXECUTION SUMMARY");
+        System.out.println("========================================");
+        System.out.println("   ✔ PASSED : " + passedCount);
+        System.out.println("   ✖ FAILED : " + failedCount);
+        System.out.println("   TOTAL    : " + (passedCount + failedCount));
+        System.out.println("========================================\n");
     }
 
     private void takeScreenshot(WebDriver driver, Scenario scenario) {

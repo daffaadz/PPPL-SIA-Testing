@@ -121,7 +121,7 @@ public class AdminLibrarySteps {
         adminPage.fillFormBukuValid();
     }
 
-    @Then("notifikasi {string} ditampilkan")
+    @Then("notifikasi {string} ditampilkan pada halaman admin")
     public void verifyNotification(String expectedMessage) {
         Assertions.assertTrue(
                 adminPage.isSuccessNotificationDisplayed(),
@@ -306,7 +306,7 @@ public class AdminLibrarySteps {
         );
     }
 
-    @And("status pesanan berubah menjadi {string}")
+    @And("status pesanan admin berubah menjadi {string}")
     public void verifyOrderStatusChange(String status) {
         Assertions.assertTrue(
                 adminPage.isTableDisplayed(),
@@ -314,7 +314,7 @@ public class AdminLibrarySteps {
         );
     }
 
-    @Then("saya diarahkan ke halaman detail pesanan")
+    @Then("saya diarahkan ke halaman detail pesanan admin")
     public void verifyDetailPage() {
         Assertions.assertTrue(
                 adminPage.isOrderDetailPageLoaded(),

@@ -34,7 +34,7 @@ Feature: Manajemen Perpustakaan (Admin)
     When saya menekan tombol "Tambah Buku"
     And saya mengisi form buku dengan data valid (judul, penulis, kategori, ISBN, penerbit, tahun, stok)
     And saya menekan tombol "Simpan"
-    Then notifikasi "Buku berhasil ditambahkan" ditampilkan
+    Then notifikasi "Buku berhasil ditambahkan" ditampilkan pada halaman admin
     And buku baru muncul di daftar katalog
 
   @Library @Admin @Catalog @Category
@@ -51,7 +51,7 @@ Feature: Manajemen Perpustakaan (Admin)
     When saya menekan tombol ikon Edit pada salah satu buku
     And saya mengubah jumlah "Total Buku" menjadi lebih banyak
     And saya menekan tombol "Simpan"
-    Then notifikasi "Buku berhasil diperbarui" ditampilkan
+    Then notifikasi "Buku berhasil diperbarui" ditampilkan pada halaman admin
     And informasi stok buku tersebut di tabel berubah
 
   @Library @Admin @Catalog @Delete
@@ -91,13 +91,13 @@ Feature: Manajemen Perpustakaan (Admin)
     When saya menekan tombol "Konfirmasi" pada pesanan tersebut
     And saya mengisi prompt catatan admin jika diperlukan
     Then notifikasi konfirmasi peminjaman ditampilkan
-    And status pesanan berubah menjadi "Dipinjam"
+    And status pesanan admin berubah menjadi "Dipinjam"
 
   @Library @Admin @Order @Detail
   Scenario: Melihat detail pesanan buku yang sedang dipinjam
     Given terdapat pesanan buku dengan status "Dipinjam"
     When saya menekan tombol "Detail" pada pesanan tersebut
-    Then saya diarahkan ke halaman detail pesanan
+    Then saya diarahkan ke halaman detail pesanan admin
     And informasi peminjam, tanggal pinjam, dan jatuh tempo ditampilkan
     And tombol "Konfirmasi Kembali" tersedia di halaman detail
 
@@ -107,7 +107,7 @@ Feature: Manajemen Perpustakaan (Admin)
     When saya menekan tombol "Kembalikan" pada pesanan tersebut
     And saya mengisi prompt catatan admin terkait kondisi buku
     Then notifikasi konfirmasi pengembalian ditampilkan
-    And status pesanan berubah menjadi "Dikembalikan"
+    And status pesanan admin berubah menjadi "Dikembalikan"
     And tombol aksi pada tabel berubah menjadi "Selesai" (disabled)
 
   # ==========================================
@@ -127,7 +127,7 @@ Feature: Manajemen Perpustakaan (Admin)
     When saya menekan tombol "Detail" pada usulan tersebut
     And saya mengisi pesan respon "Usulan diterima, buku akan segera dipesan"
     And saya menekan tombol "Setujui"
-    Then notifikasi "Usulan berhasil disetujui" ditampilkan
+    Then notifikasi "Usulan berhasil disetujui" ditampilkan pada halaman admin
     And status usulan berubah menjadi "Disetujui"
     And modal detail usulan tertutup
 
@@ -137,6 +137,6 @@ Feature: Manajemen Perpustakaan (Admin)
     When saya menekan tombol "Detail" pada usulan tersebut
     And saya mengisi pesan respon "Usulan ditolak karena buku di luar konteks prodi"
     And saya menekan tombol "Tolak"
-    Then notifikasi "Usulan berhasil ditolak" ditampilkan
+    Then notifikasi "Usulan berhasil ditolak" ditampilkan pada halaman admin
     And status usulan berubah menjadi "Ditolak"
     And modal detail usulan tertutup

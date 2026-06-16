@@ -193,4 +193,13 @@ public abstract class BasePage {
             return isDisplayed(SUCCESS_TOAST);
         }
     }
+
+    public void clearLocalStorage() {
+        ((JavascriptExecutor) driver).executeScript(
+            "localStorage.clear(); sessionStorage.clear();" +
+            "document.cookie.split(';').forEach(function(c) {" +
+            "  document.cookie = c.trim().split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';" +
+            "});"
+        );
+    }
 }

@@ -9,24 +9,12 @@ import org.junit.jupiter.api.Assertions;
 import pages.LibraryActivitiesPage;
 import pages.LoginPage;
 
-/**
- * LibraryActivitiesSteps — Step definitions untuk Feature: Aktivitas Perpustakaan.
- *
- * Catatan: Step @Given("saya sudah login sebagai mahasiswa") sudah didefinisikan
- * di LibraryBooksSteps.java sehingga tidak perlu diduplikasi di sini.
- *
- * Semua pemanggilan wait/URL check dilakukan via method public di LibraryActivitiesPage,
- * karena method protected di BasePage tidak dapat diakses dari luar package pages.
- */
 public class LibraryActivitiesSteps {
 
     private final LoginPage loginPage = new LoginPage();
     private final LibraryActivitiesPage activitiesPage = new LibraryActivitiesPage();
 
-    // =========================================================================
-    // BACKGROUND
-    // =========================================================================
-
+    // TC-ACT-001 & TC-ACT-002: Akses halaman aktivitas
     @Given("saya berada di halaman aktivitas perpustakaan")
     public void navigateToActivitiesPage() {
         activitiesPage.openPage();
@@ -35,10 +23,6 @@ public class LibraryActivitiesSteps {
                 "Halaman aktivitas perpustakaan seharusnya berhasil dimuat."
         );
     }
-
-    // =========================================================================
-    // TC-ACT-001 & TC-ACT-002 — AKSES HALAMAN
-    // =========================================================================
 
     @Then("halaman aktivitas perpustakaan ditampilkan dengan benar")
     public void verifyActivitiesPageLoaded() {
@@ -50,10 +34,8 @@ public class LibraryActivitiesSteps {
 
     @And("daftar aktivitas peminjaman ditampilkan")
     public void verifyActivityListDisplayed() {
-        boolean hasTable = activitiesPage.isActivityTableDisplayed();
-        boolean hasEmpty = activitiesPage.isEmptyStateDisplayed();
         Assertions.assertTrue(
-                hasTable || hasEmpty,
+                activitiesPage.isActivityTableDisplayed() || activitiesPage.isEmptyStateDisplayed(),
                 "Daftar aktivitas atau pesan kosong seharusnya ditampilkan."
         );
     }
@@ -66,13 +48,11 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    // =========================================================================
-    // TC-ACT-003 — NEGATIVE: belum login
-    // =========================================================================
-
+    // TC-ACT-003: Akses tanpa login
     @Given("saya belum login ke sistem")
     public void ensureNotLoggedIn() {
         activitiesPage.navigateTo(TestConfig.BASE_URL);
+        activitiesPage.clearLocalStorage();
     }
 
     @When("saya mengakses URL {string} secara langsung")
@@ -82,7 +62,6 @@ public class LibraryActivitiesSteps {
 
     @Then("saya diarahkan ke halaman login")
     public void verifyRedirectedToLogin() {
-        // Delegasi ke Page Object agar akses protected method tetap di package pages
         Assertions.assertTrue(
                 activitiesPage.waitForAndVerifyLoginRedirect(),
                 "Seharusnya diarahkan ke halaman login."
@@ -97,10 +76,7 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    // =========================================================================
-    // TC-ACT-004 — DETAIL: buka dari daftar
-    // =========================================================================
-
+    // TC-ACT-004: Buka halaman detail dari daftar
     @Given("terdapat minimal satu aktivitas peminjaman pada daftar")
     public void verifyAtLeastOneActivity() {
         Assertions.assertTrue(
@@ -114,9 +90,8 @@ public class LibraryActivitiesSteps {
         activitiesPage.clickButtonOnFirstRow(buttonName);
     }
 
-    @Then("saya diarahkan ke halaman detail pesanan")
+    @Then("saya diarahkan ke halaman detail pesanan mahasiswa")
     public void verifyDetailPageLoaded() {
-        // Delegasi ke Page Object agar protected waitForUrlContains tidak dipanggil dari sini
         Assertions.assertTrue(
                 activitiesPage.waitForAndVerifyDetailPage(),
                 "Halaman detail pesanan seharusnya berhasil dimuat."
@@ -151,10 +126,7 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    // =========================================================================
-    // TC-ACT-005 — DETAIL: informasi lengkap
-    // =========================================================================
-
+    // TC-ACT-005: Verifikasi informasi lengkap di halaman detail
     @Given("terdapat aktivitas peminjaman dengan status {string}")
     public void filterAndVerifyStatusExists(String status) {
         activitiesPage.applyStatusFilter(status);
@@ -209,10 +181,7 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    // =========================================================================
-    // TC-ACT-006 — DETAIL: tombol kembali
-    // =========================================================================
-
+    // TC-ACT-006: Tombol kembali dari halaman detail
     @And("mahasiswa menekan tombol kembali atau navigasi back")
     public void clickBackButton() {
         activitiesPage.clickBackOrBrowserBack();
@@ -220,7 +189,6 @@ public class LibraryActivitiesSteps {
 
     @Then("saya kembali ke halaman daftar aktivitas perpustakaan")
     public void verifyBackToActivitiesList() {
-        // Delegasi ke Page Object agar protected method tetap di package pages
         Assertions.assertTrue(
                 activitiesPage.isOnActivitiesListPage(),
                 "URL seharusnya kembali ke daftar, bukan halaman detail."
@@ -229,18 +197,13 @@ public class LibraryActivitiesSteps {
 
     @And("daftar aktivitas masih ditampilkan")
     public void verifyListStillDisplayed() {
-        boolean hasRows = activitiesPage.getActivityRowCount() > 0;
-        boolean hasEmpty = activitiesPage.isEmptyStateDisplayed();
         Assertions.assertTrue(
-                hasRows || hasEmpty,
+                activitiesPage.getActivityRowCount() > 0 || activitiesPage.isEmptyStateDisplayed(),
                 "Daftar aktivitas seharusnya masih tampil setelah kembali."
         );
     }
 
-    // =========================================================================
-    // TC-ACT-007 — FILTER: status Dipinjam
-    // =========================================================================
-
+    // TC-ACT-007: Filter status aktivitas
     @When("mahasiswa memilih filter status aktivitas {string}")
     public void applyStatusFilter(String status) {
         activitiesPage.applyStatusFilter(status);
@@ -262,10 +225,7 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    // =========================================================================
-    // TC-ACT-008 — FILTER: reset ke Semua
-    // =========================================================================
-
+    // TC-ACT-008: Reset filter ke Semua
     @Given("mahasiswa sudah memilih filter status {string}")
     public void alreadyAppliedFilter(String status) {
         activitiesPage.applyStatusFilter(status);
@@ -273,10 +233,8 @@ public class LibraryActivitiesSteps {
 
     @Then("seluruh daftar aktivitas peminjaman ditampilkan kembali")
     public void verifyAllActivitiesShown() {
-        boolean hasRows = activitiesPage.getActivityRowCount() > 0;
-        boolean hasEmpty = activitiesPage.isEmptyStateDisplayed();
         Assertions.assertTrue(
-                hasRows || hasEmpty,
+                activitiesPage.getActivityRowCount() > 0 || activitiesPage.isEmptyStateDisplayed(),
                 "Seluruh aktivitas seharusnya kembali ditampilkan setelah filter direset."
         );
     }
@@ -289,10 +247,7 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    // =========================================================================
-    // TC-ACT-009 — BATALKAN: berhasil
-    // =========================================================================
-
+    // TC-ACT-009 & TC-ACT-010: Batalkan pesanan dan dialog konfirmasi
     @Given("terdapat pesanan buku dengan status {string} pada daftar aktivitas")
     public void filterAndVerifyOrderWithStatus(String status) {
         activitiesPage.applyStatusFilter(status);
@@ -312,7 +267,7 @@ public class LibraryActivitiesSteps {
         activitiesPage.clickConfirmOnDialog();
     }
 
-    @Then("notifikasi {string} ditampilkan")
+    @Then("notifikasi aktivitas {string} ditampilkan")
     public void verifyNotificationMessage(String message) {
         Assertions.assertTrue(
                 activitiesPage.isSuccessToastDisplayed(),
@@ -337,23 +292,25 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    // =========================================================================
-    // TC-ACT-010 — BATALKAN: dialog konfirmasi
-    // =========================================================================
-
-    @Then("dialog konfirmasi pembatalan pesanan ditampilkan")
-    public void verifyCancellationDialogDisplayed() {
+    // TC-ACT-010: Browser konfirmasi sebelum membatalkan
+    @Then("konfirmasi pembatalan dari browser ditampilkan")
+    public void verifyBrowserConfirmationDisplayed() {
         Assertions.assertTrue(
-                activitiesPage.isCancellationDialogDisplayed(),
-                "Dialog konfirmasi pembatalan seharusnya ditampilkan."
+                activitiesPage.isBrowserConfirmationDisplayed(),
+                "Browser seharusnya menampilkan dialog konfirmasi pembatalan."
         );
     }
 
-    @And("tombol {string} tersedia pada dialog")
-    public void verifyButtonOnDialog(String buttonName) {
+    @And("mahasiswa memilih untuk tidak jadi membatalkan")
+    public void dismissBrowserConfirmation() {
+        activitiesPage.dismissBrowserConfirmation();
+    }
+
+    @And("pesanan masih ada dalam daftar aktivitas")
+    public void verifyOrderStillExists() {
         Assertions.assertTrue(
-                activitiesPage.isButtonOnDialogDisplayed(buttonName),
-                "Tombol '" + buttonName + "' seharusnya tersedia pada dialog."
+                activitiesPage.getActivityRowCount() > 0,
+                "Pesanan seharusnya masih ada setelah pembatalan dibatalkan."
         );
     }
 }

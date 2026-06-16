@@ -14,11 +14,10 @@ Feature: Aktivitas Perpustakaan
 
   @LibraryActivities @Akses @Positive
   Scenario: TC-ACT-002 - Halaman aktivitas menampilkan informasi kolom tabel dengan lengkap
-    Then tabel aktivitas memiliki kolom "Judul Buku"
+    Then tabel aktivitas memiliki kolom "Buku"
     And tabel aktivitas memiliki kolom "Status"
-    And tabel aktivitas memiliki kolom "Tanggal Pinjam"
-    And tabel aktivitas memiliki kolom "Jatuh Tempo"
-
+    And tabel aktivitas memiliki kolom "Dipesan"
+    And tabel aktivitas memiliki kolom "Dipinjam"
 
   @LibraryActivities @Akses @Negative
   Scenario: TC-ACT-003 - Mahasiswa yang belum login tidak dapat mengakses halaman aktivitas
@@ -31,7 +30,7 @@ Feature: Aktivitas Perpustakaan
   Scenario: TC-ACT-004 - Mahasiswa berhasil melihat detail pesanan dari daftar aktivitas
     Given terdapat minimal satu aktivitas peminjaman pada daftar
     When mahasiswa menekan tombol "Detail" pada aktivitas pertama
-    Then saya diarahkan ke halaman detail pesanan
+    Then saya diarahkan ke halaman detail pesanan mahasiswa
     And informasi judul buku ditampilkan di halaman detail
     And informasi status pesanan ditampilkan di halaman detail
     And informasi tanggal pinjam dan jatuh tempo ditampilkan
@@ -72,15 +71,14 @@ Feature: Aktivitas Perpustakaan
     Given terdapat pesanan buku dengan status "Menunggu Konfirmasi" pada daftar aktivitas
     When mahasiswa menekan tombol "Batalkan" pada pesanan tersebut
     And mahasiswa mengonfirmasi tindakan pembatalan pada dialog konfirmasi
-    Then notifikasi "Pesanan berhasil dibatalkan" ditampilkan
+    Then notifikasi aktivitas "Pesanan berhasil dibatalkan" ditampilkan
     And status pesanan berubah menjadi "Dibatalkan"
     And tombol "Batalkan" tidak lagi tersedia pada pesanan tersebut
 
   @LibraryActivities @Batalkan @Positive
-  Scenario: TC-ACT-010 - Dialog konfirmasi pembatalan pesanan ditampilkan sebelum proses dibatalkan
+  Scenario: TC-ACT-010 - Browser meminta konfirmasi sebelum pesanan dibatalkan
     Given terdapat pesanan buku dengan status "Menunggu Konfirmasi" pada daftar aktivitas
     When mahasiswa menekan tombol "Batalkan" pada pesanan tersebut
-    Then dialog konfirmasi pembatalan pesanan ditampilkan
-    And tombol "Ya, Batalkan" tersedia pada dialog
-    And tombol "Tidak" tersedia pada dialog
-
+    Then konfirmasi pembatalan dari browser ditampilkan
+    And mahasiswa memilih untuk tidak jadi membatalkan
+    And pesanan masih ada dalam daftar aktivitas

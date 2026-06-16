@@ -1,33 +1,51 @@
-# Dokumentasi SIA-UKT-TEST (Login Focus)
+# Dokumentasi SIA-UGN-Test (Login Focus)
 
-Proyek ini telah direfaktor untuk memfokuskan pengujian fungsional pada alur Login (Autentikasi). Direktori telah disederhanakan dengan memindahkan semua *package* panjang dan konfigurasi rumit.
+Modul ini berisi skenario pengujian otomatis untuk fitur **Login Mahasiswa dan Admin** pada sistem SIA-UGN. Pengujian dilakukan menggunakan pendekatan Behavior-Driven Development (BDD) dengan Cucumber dan Page Object Model (POM) dengan Selenium WebDriver.
 
 ## Struktur Direktori
 
-Seluruh logika *test* Java dapat ditemukan tepat di bawah `src/test/java/`, tanpa struktur package *domain* tambahan (`com.siaugn.ukt`).
-
-```text
-SIA-UKT-TEST/
+SIA-UGN-Test/
 ├── src/
 │   └── test/
 │       ├── java/
-│       │   ├── config/
-│       │   │   └── TestConfig.java        # Konfigurasi konstanta seperti BASE_URL dan Timeout
-│       │   ├── hooks/
-│       │   │   └── CucumberHooks.java     # Konfigurasi WebDriver global (@Before & @After)
-│       │   ├── pages/
-│       │   │   ├── BasePage.java          # Abstract class berisikan utils & wait methods
-│       │   │   └── LoginPage.java         # Page Object spesifik untuk interaksi halaman Login
-│       │   ├── runner/
-│       │   │   └── CucumberRunner.java    # Titik eksekusi pengujian dengan JUnit Platform Suite
-│       │   └── steps/
-│       │       └── LoginSteps.java        # Step Definitions pemetaan dari syntax Gherkin
+│       │   ├── config/             # Konfigurasi pengujian (base URL, kredensial, timeouts)
+│       │   ├── hooks/              # Setup & teardown browser (Cucumber Hooks)
+│       │   ├── pages/              # Implementasi Page Object Model (LoginPage, BasePage)
+│       │   └── steps/              # Definisi langkah-langkah Cucumber (LoginSteps)
 │       └── resources/
-│           ├── features/
-│           │   └── login.feature          # Kumpulan skenario BDD untuk fitur Login
-│           └── cucumber.properties        # Konfigurasi plugin Cucumber standar
-└── pom.xml                                # Konfigurasi dependensi Maven
+│           └── features/           # File Gherkin berisi skenario login (login.feature)
+├── data/
+│   └── akun_SIA_UGN.md             # Catatan kredensial akun uji
+└── documentation.md                # Dokumen ini
+
+## Persyaratan Sistem
+
+- **Java Development Kit (JDK):** Versi 17 atau yang lebih baru.
+- **Maven:** Untuk manajemen dependensi.
+- **Google Chrome:** Browser untuk eksekusi Selenium.
+- **Koneksi Internet:** Untuk mengunduh WebDriver otomatis via WebDriverManager.
+
+## Dependensi Utama
+
+Proyek ini menggunakan dependensi berikut yang diatur di `pom.xml`:
+
+- `selenium-java` (4.21.0)
+- `webdrivermanager` (5.8.0)
+- `cucumber-java` & `cucumber-junit-platform-engine` (7.18.0)
+- `junit-jupiter` (5.10.2)
+- `junit-platform-suite` (1.10.2)
+
+## Cara Menjalankan Tes
+
+### 1. Menjalankan Semua Tes via Maven
+
+Jalankan perintah ini di *root directory* dari modul pengujian (`SIA-UGN-Test`):
+
+```bash
+mvn clean test
 ```
+
+Anda dapat melihat laporan *testing* dalam bentuk visual/HTML yang dihasilkan secara otomatis di dalam `target/cucumber-reports/cucumber-report.html`.
 
 ## Arsitektur dan Pola (Pattern)
 
