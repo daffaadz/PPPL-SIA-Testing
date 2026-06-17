@@ -18,11 +18,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CucumberHooks {
 
     private static final DateTimeFormatter TIMESTAMP_FMT = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
     public static WebDriver driver;
+
+    private static final Logger cdpLogger = Logger.getLogger("org.openqa.selenium.devtools");
+    private static final Logger chromiumLogger = Logger.getLogger("org.openqa.selenium.chromium");
+    private static final Logger seleniumLogger = Logger.getLogger("org.openqa.selenium");
+    private static final Logger remoteLogger = Logger.getLogger("org.openqa.selenium.remote");
 
     private static int passedCount = 0;
     private static int failedCount = 0;
@@ -33,7 +44,6 @@ public class CucumberHooks {
         System.out.println("▶  START: " + scenario.getName());
         System.out.println("   Tags  : " + scenario.getSourceTagNames());
         System.out.println("========================================");
-
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         if (TestConfig.HEADLESS) {
@@ -44,6 +54,7 @@ public class CucumberHooks {
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--log-level=3"); // Suppress ChromeDriver console logs
 
         driver = new ChromeDriver(options);
 
@@ -71,6 +82,42 @@ public class CucumberHooks {
             driver.quit();
             driver = null;
         }
+    }
+
+    @io.cucumber.java.BeforeAll
+    public static void setupBeforeAll() {
+        System.out.println("\n========================================");
+        System.out.println("   GLOBAL SETUP (Before All)");
+        System.out.println("========================================");
+        
+        // Suppress SLF4J logs for WebDriverManager
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error");
+        
+        // Suppress Selenium CDP Warnings
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+        Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
+        Logger.getLogger("org.openqa.selenium.devtools").setLevel(Level.SEVERE);
+        Logger.getLogger("org.openqa.selenium.chromium").setLevel(Level.SEVERE);
+        Logger.getLogger("org.openqa.selenium.remote").setLevel(Level.SEVERE);
+
+        try {
+            System.out.println("   ⏳ Resetting library database on Railway...");
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(TestConfig.API_BASE_URL + "/api/testing/reset-library"))
+                    .header("X-Testing-Key", TestConfig.TESTING_SECRET_KEY)
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                System.out.println("   ✅ Database reset & seeded successfully.");
+            } else {
+                System.err.println("   ⚠ Failed to reset database: HTTP " + response.statusCode() + " - " + response.body());
+            }
+        } catch (Exception e) {
+            System.err.println("   ⚠ Error calling reset API: " + e.getMessage());
+        }
+        System.out.println("========================================\n");
     }
 
     @io.cucumber.java.AfterAll

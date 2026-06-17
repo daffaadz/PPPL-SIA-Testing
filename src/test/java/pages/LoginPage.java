@@ -5,9 +5,11 @@ import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
 
+    // Form Elements
     private static final By EMAIL_INPUT    = By.cssSelector("input[type='email'], input[name='email'], input[id='email']");
     private static final By PASSWORD_INPUT = By.cssSelector("input[type='password'], input[name='password'], input[id='password']");
     private static final By LOGIN_BUTTON   = By.cssSelector("button[type='submit']");
+    // Feedback & Page State
     private static final By ERROR_BOX      = By.xpath("//h3[contains(text(),'Terjadi Kesalahan')]/..");
     private static final By ERROR_MESSAGE  = By.xpath("//h3[contains(text(),'Terjadi Kesalahan')]/following-sibling::p");
     private static final By PAGE_HEADING   = By.cssSelector("h1, h2");

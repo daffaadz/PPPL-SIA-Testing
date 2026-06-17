@@ -8,6 +8,7 @@ public class LoginSteps {
 
     private final LoginPage loginPage = new LoginPage();
 
+    // TC-LGN-001 & TC-LGN-002: Login berhasil (mahasiswa & admin)
     @Given("saya membuka halaman login SIA-UGN")
     public void iOpenTheLoginPage() {
         loginPage.openLoginPage();
@@ -26,6 +27,7 @@ public class LoginSteps {
         loginPage.clickLoginButton();
     }
 
+    // TC-LGN-005: Login gagal saat field kosong
     @When("saya tidak mengisi email dan password")
     public void iDoNotFillEmailAndPassword() {
     }
@@ -36,6 +38,7 @@ public class LoginSteps {
                 "Login seharusnya berhasil dan URL bukan /login.");
     }
 
+    // TC-LGN-003 & TC-LGN-004: Login gagal (password & email salah)
     @Then("saya melihat pesan error pada halaman login")
     public void iSeeErrorMessageOnLoginPage() {
         Assertions.assertTrue(loginPage.isErrorMessageDisplayed(),

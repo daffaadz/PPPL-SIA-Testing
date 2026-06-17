@@ -7,15 +7,18 @@ import java.util.List;
 
 public class LibrarySuggestionsPage extends BasePage {
 
+    // Page State
     private static final By FORM_HEADING            = By.xpath("//*[contains(text(),'Formulir Usulan Buku')]");
     private static final By PAGE_HEADING            = By.cssSelector("h1, h2");
     private static final By HISTORY_LOADING         = By.xpath("//*[contains(text(),'Memuat riwayat usulan')]");
     private static final By HISTORY_SECTION_HEADING = By.xpath("//h3[contains(text(),'Riwayat Usulan Anda')]");
+    // Form Fields
     private static final By INPUT_TITLE             = By.cssSelector("input[placeholder*='judul buku']");
     private static final By INPUT_AUTHOR            = By.cssSelector("input[placeholder*='nama penulis']");
     private static final By TEXTAREA_REASON         = By.cssSelector("textarea[placeholder*='penting']");
     private static final By BUTTON_SUBMIT           = By.xpath("//button[contains(normalize-space(text()),'Kirim Usulan') or contains(.,'Kirim Usulan')]");
     private static final By CHAR_COUNTER            = By.xpath("//*[contains(text(),' karakter') and not(contains(text(),'minimal'))]");
+    // Validation Errors
     private static final By ERROR_TITLE             = By.xpath("//*[contains(text(),'Judul buku wajib diisi')]");
     private static final By ERROR_AUTHOR            = By.xpath("//*[contains(text(),'Nama penulis wajib diisi')]");
     private static final By ERROR_REASON            = By.xpath("//*[contains(text(),'Alasan usulan')]");

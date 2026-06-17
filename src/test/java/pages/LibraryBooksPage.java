@@ -6,13 +6,16 @@ import java.util.List;
 
 public class LibraryBooksPage extends BasePage {
 
+    // Page State
     private static final By PAGE_HEADING       = By.cssSelector("h1, h2");
     private static final By LOADING_STATE      = By.xpath("//*[contains(text(),'Memuat katalog buku')]");
     private static final By BOOK_COUNT_TEXT    = By.xpath("//*[contains(text(),'Menampilkan')]");
     private static final By EMPTY_STATE        = By.xpath("//*[contains(text(),'Buku tidak ditemukan')]");
+    // Search & Filter
     private static final By SEARCH_INPUT       = By.cssSelector("input[type='text'][placeholder*='Cari'], input[type='text'][placeholder*='judul']");
     private static final By FILTER_BUTTON      = By.xpath("//button[contains(text(),'Filter Judul') or contains(.,'Filter Judul')]");
     private static final By SEMUA_PILL         = By.xpath("//button[normalize-space(text())='Semua']");
+    // Book Listing
     private static final By BOOK_GRID          = By.cssSelector("section.grid");
     private static final By ANY_ORDER_BUTTON   = By.xpath("//button[normalize-space(text())='Pesan' or contains(normalize-space(text()),'Pesan')]");
 

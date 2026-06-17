@@ -11,25 +11,25 @@ Feature: Manajemen Perpustakaan (Admin)
   # ==========================================
 
   @Library @Admin @Catalog
-  Scenario: Melihat dashboard dan daftar buku di katalog
+  Scenario: TC-ADM-001 - Melihat dashboard dan daftar buku di katalog
     When saya berada di halaman "Manajemen Perpustakaan"
     Then saya dapat melihat statistik total buku, buku tersedia, dipinjam, dan stok kritis
     And daftar buku ditampilkan pada tabel katalog
 
   @Library @Admin @Catalog @Search
-  Scenario: Mencari buku di katalog
+  Scenario: TC-ADM-002 - Mencari buku di katalog
     Given saya berada di halaman "Manajemen Perpustakaan"
     When saya memasukkan kata kunci "Rekayasa Perangkat Lunak" pada kolom pencarian
     Then daftar buku di tabel akan difilter sesuai dengan kata kunci "Rekayasa Perangkat Lunak"
 
   @Library @Admin @Catalog @Filter
-  Scenario: Memfilter buku berdasarkan stok kritis
+  Scenario: TC-ADM-003 - Memfilter buku berdasarkan stok kritis
     Given saya berada di halaman "Manajemen Perpustakaan"
     When saya menekan tombol filter "Stok Kritis"
     Then tabel hanya menampilkan buku-buku yang memiliki stok tersedia 0
 
   @Library @Admin @Catalog @Add
-  Scenario: Menambahkan buku baru ke katalog
+  Scenario: TC-ADM-004 - Menambahkan buku baru ke katalog
     Given saya berada di halaman "Manajemen Perpustakaan"
     When saya menekan tombol "Tambah Buku"
     And saya mengisi form buku dengan data valid (judul, penulis, kategori, ISBN, penerbit, tahun, stok)
@@ -38,7 +38,7 @@ Feature: Manajemen Perpustakaan (Admin)
     And buku baru muncul di daftar katalog
 
   @Library @Admin @Catalog @Category
-  Scenario: Menambahkan kategori buku baru saat menambah buku
+  Scenario: TC-ADM-005 - Menambahkan kategori buku baru saat menambah buku
     Given saya berada di form "Tambah Buku Baru"
     When saya membuka dropdown Kategori dan memilih "Tambah Kategori Baru"
     And saya memasukkan nama kategori "Kecerdasan Buatan"
@@ -46,7 +46,7 @@ Feature: Manajemen Perpustakaan (Admin)
     Then kategori "Kecerdasan Buatan" berhasil dibuat dan terpilih di form buku
 
   @Library @Admin @Catalog @Edit
-  Scenario: Mengedit informasi buku yang sudah ada
+  Scenario: TC-ADM-006 - Mengedit informasi buku yang sudah ada
     Given saya berada di halaman "Manajemen Perpustakaan"
     When saya menekan tombol ikon Edit pada salah satu buku
     And saya mengubah jumlah "Total Buku" menjadi lebih banyak
@@ -55,7 +55,7 @@ Feature: Manajemen Perpustakaan (Admin)
     And informasi stok buku tersebut di tabel berubah
 
   @Library @Admin @Catalog @Delete
-  Scenario: Menghapus atau menonaktifkan buku
+  Scenario: TC-ADM-007 - Menghapus atau menonaktifkan buku
     Given saya berada di halaman "Manajemen Perpustakaan"
     When saya menekan tombol ikon Hapus pada salah satu buku
     And saya mengonfirmasi tindakan penghapusan
@@ -67,26 +67,26 @@ Feature: Manajemen Perpustakaan (Admin)
   # ==========================================
 
   @Library @Admin @Order @Filter
-  Scenario: Memfilter daftar peminjaman berdasarkan status
+  Scenario: TC-ADM-008 - Memfilter daftar peminjaman berdasarkan status
     Given saya berada di tab "Peminjaman" pada Manajemen Peminjaman & Usulan
     When saya memilih filter status "Dipinjam"
     Then tabel hanya menampilkan pesanan dengan status "Dipinjam"
 
   @Library @Admin @Order @Search
-  Scenario: Mencari pesanan peminjaman mahasiswa
+  Scenario: TC-ADM-009 - Mencari pesanan peminjaman mahasiswa
     Given saya berada di tab "Peminjaman" pada Manajemen Peminjaman & Usulan
     When saya mencari menggunakan NIM atau nama mahasiswa
     Then tabel menampilkan data pesanan peminjaman mahasiswa tersebut
 
   @Library @Admin @Order @Status
-  Scenario: Melihat status peminjaman sebelum dikonfirmasi
+  Scenario: TC-ADM-010 - Melihat status peminjaman sebelum dikonfirmasi
     Given terdapat pesanan buku dengan status "Dipesan"
     When saya melihat daftar peminjaman
     Then status "Dipesan" ditampilkan pada pesanan tersebut
     And tombol aksi "Konfirmasi" tersedia
 
   @Library @Admin @Order @ConfirmBorrow
-  Scenario: Mengonfirmasi peminjaman buku (Admin memberikan buku ke mahasiswa)
+  Scenario: TC-ADM-011 - Mengonfirmasi peminjaman buku (Admin memberikan buku ke mahasiswa)
     Given terdapat pesanan buku dengan status "Dipesan"
     When saya menekan tombol "Konfirmasi" pada pesanan tersebut
     And saya mengisi prompt catatan admin jika diperlukan
@@ -94,7 +94,7 @@ Feature: Manajemen Perpustakaan (Admin)
     And status pesanan admin berubah menjadi "Dipinjam"
 
   @Library @Admin @Order @Detail
-  Scenario: Melihat detail pesanan buku yang sedang dipinjam
+  Scenario: TC-ADM-012 - Melihat detail pesanan buku yang sedang dipinjam
     Given terdapat pesanan buku dengan status "Dipinjam"
     When saya menekan tombol "Detail" pada pesanan tersebut
     Then saya diarahkan ke halaman detail pesanan admin
@@ -102,7 +102,7 @@ Feature: Manajemen Perpustakaan (Admin)
     And tombol "Konfirmasi Kembali" tersedia di halaman detail
 
   @Library @Admin @Order @ConfirmReturn
-  Scenario: Mengonfirmasi pengembalian buku (Mahasiswa mengembalikan buku)
+  Scenario: TC-ADM-013 - Mengonfirmasi pengembalian buku (Mahasiswa mengembalikan buku)
     Given terdapat pesanan buku dengan status "Dipinjam"
     When saya menekan tombol "Kembalikan" pada pesanan tersebut
     And saya mengisi prompt catatan admin terkait kondisi buku
@@ -115,14 +115,14 @@ Feature: Manajemen Perpustakaan (Admin)
   # ==========================================
 
   @Library @Admin @Suggestions
-  Scenario: Melihat daftar usulan buku mahasiswa
+  Scenario: TC-ADM-014 - Melihat daftar usulan buku mahasiswa
     Given saya berada di halaman Manajemen Peminjaman & Usulan
     When saya berpindah ke tab "Usulan"
     Then daftar usulan buku dari mahasiswa ditampilkan
     And saya dapat melihat ringkasan status usulan (Menunggu, Disetujui, Ditolak)
 
   @Library @Admin @Suggestions @Approve
-  Scenario: Menyetujui usulan buku baru dari mahasiswa
+  Scenario: TC-ADM-015 - Menyetujui usulan buku baru dari mahasiswa
     Given terdapat usulan buku dengan status "Menunggu" di tab "Usulan"
     When saya menekan tombol "Detail" pada usulan tersebut
     And saya mengisi pesan respon "Usulan diterima, buku akan segera dipesan"
@@ -132,7 +132,7 @@ Feature: Manajemen Perpustakaan (Admin)
     And modal detail usulan tertutup
 
   @Library @Admin @Suggestions @Reject
-  Scenario: Menolak usulan buku baru dari mahasiswa
+  Scenario: TC-ADM-016 - Menolak usulan buku baru dari mahasiswa
     Given terdapat usulan buku dengan status "Menunggu" di tab "Usulan"
     When saya menekan tombol "Detail" pada usulan tersebut
     And saya mengisi pesan respon "Usulan ditolak karena buku di luar konteks prodi"

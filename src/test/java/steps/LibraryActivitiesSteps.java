@@ -114,15 +114,17 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    @And("informasi tanggal pinjam dan jatuh tempo ditampilkan")
+    @And("informasi tanggal pemesanan dan durasi ditampilkan")
     public void verifyDatesInDetail() {
-        Assertions.assertTrue(
-                activitiesPage.isDetailLoanDateDisplayed(),
-                "Tanggal pinjam seharusnya ditampilkan di halaman detail."
-        );
-        Assertions.assertTrue(
-                activitiesPage.isDetailDueDateDisplayed(),
-                "Tanggal jatuh tempo seharusnya ditampilkan di halaman detail."
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(
+                    activitiesPage.isDetailLoanDateDisplayed(),
+                    "Tanggal pemesanan seharusnya ditampilkan di halaman detail."
+            ),
+            () -> Assertions.assertTrue(
+                    activitiesPage.isDetailDurationDisplayed(),
+                    "Durasi seharusnya ditampilkan di halaman detail."
+            )
         );
     }
 
@@ -165,11 +167,11 @@ public class LibraryActivitiesSteps {
         );
     }
 
-    @And("tanggal jatuh tempo ditampilkan dengan benar")
-    public void verifyDueDateInDetail() {
+    @And("durasi pinjam ditampilkan dengan benar")
+    public void verifyDurationInDetail() {
         Assertions.assertTrue(
-                activitiesPage.isDetailDueDateDisplayed(),
-                "Tanggal jatuh tempo seharusnya tampil di halaman detail."
+                activitiesPage.isDetailDurationDisplayed(),
+                "Durasi seharusnya tampil di halaman detail."
         );
     }
 

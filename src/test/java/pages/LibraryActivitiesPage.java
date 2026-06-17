@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class LibraryActivitiesPage extends BasePage {
 
-    // Locators
+    // Page State
     private static final By PAGE_HEADING = By.cssSelector("h1, h2");
 
     private static final By LOADING_STATE = By.xpath(
@@ -24,6 +24,7 @@ public class LibraryActivitiesPage extends BasePage {
             " or contains(text(),'Data tidak ditemukan')]"
     );
 
+    // Table
     private static final By ACTIVITY_TABLE = By.cssSelector("table");
 
     private static final By TABLE_ROWS = By.cssSelector("table tbody tr");
@@ -32,13 +33,16 @@ public class LibraryActivitiesPage extends BasePage {
             "table tbody tr span[class*='rounded-full']"
     );
 
+    // Filter
     private static final By FILTER_SELECT = By.cssSelector("select");
 
+    // Navigation
     private static final By BACK_BUTTON = By.xpath(
             "//a[contains(., 'Kembali')]"
             + " | //button[contains(., 'Kembali')]"
     );
 
+    // Detail Page
     private static final By DETAIL_BOOK_TITLE = By.cssSelector("article h2");
 
     private static final By DETAIL_STATUS = By.cssSelector(
@@ -46,18 +50,18 @@ public class LibraryActivitiesPage extends BasePage {
     );
 
     private static final By DETAIL_BORROWER_NAME = By.xpath(
-            "//*[contains(text(),'Pemesan:')]/following-sibling::*"
-            + " | //*[contains(.,'Pemesan:')]"
+            "//*[contains(normalize-space(),'Pemesan')]"
     );
 
     private static final By DETAIL_LOAN_DATE = By.xpath(
-            "//*[contains(.,'Dipesan:')]"
+            "//*[contains(normalize-space(),'Dipesan')]"
     );
 
-    private static final By DETAIL_DUE_DATE = By.xpath(
-            "//*[contains(.,'Dipinjam:')]"
+    private static final By DETAIL_DURATION = By.xpath(
+            "//*[contains(normalize-space(),'Durasi')]"
     );
 
+    // Status Value Map
     private static final Map<String, String> STATUS_MAP = Map.of(
             "Semua", "",
             "Semua Status", "",
@@ -244,9 +248,9 @@ public class LibraryActivitiesPage extends BasePage {
         }
     }
 
-    public boolean isDetailDueDateDisplayed() {
+    public boolean isDetailDurationDisplayed() {
         try {
-            waitForVisibility(DETAIL_DUE_DATE);
+            waitForVisibility(DETAIL_DURATION);
             return true;
         } catch (Exception e) {
             return false;
@@ -280,9 +284,10 @@ public class LibraryActivitiesPage extends BasePage {
     }
 
     public void clickBackOrBrowserBack() {
-        if (isDisplayed(BACK_BUTTON)) {
+        try {
+            waitForVisibility(BACK_BUTTON);
             click(BACK_BUTTON);
-        } else {
+        } catch (Exception e) {
             driver.navigate().back();
         }
         try {

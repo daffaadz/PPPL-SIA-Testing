@@ -10,6 +10,7 @@ public class LibrarySuggestionsSteps {
 
     private final LibrarySuggestionsPage suggestionsPage = new LibrarySuggestionsPage();
 
+    // TC-SUG-001: Halaman usulan dimuat
     @And("saya berada di halaman usulan buku")
     public void navigateToLibrarySuggestions() {
         suggestionsPage.openPage();
@@ -29,6 +30,7 @@ public class LibrarySuggestionsSteps {
                 "Form 'Formulir Usulan Buku' seharusnya ditampilkan.");
     }
 
+    // TC-SUG-002: Kirim usulan buku valid
     @When("mahasiswa mengisi form usulan dengan judul {string}, penulis {string}, dan alasan {string}")
     public void fillSuggestionForm(String title, String author, String reason) {
         suggestionsPage.fillTitle(title);
@@ -64,6 +66,7 @@ public class LibrarySuggestionsSteps {
                 "Riwayat usulan seharusnya menampilkan buku: '" + title + "'.");
     }
 
+    // TC-SUG-003: Validasi form kosong
     @Then("pesan error validasi form usulan ditampilkan")
     public void verifyValidationErrorsDisplayed() {
         Assertions.assertTrue(

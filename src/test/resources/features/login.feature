@@ -7,31 +7,31 @@ Feature: Login Mahasiswa dan Admin
     Given saya membuka halaman login SIA-UGN
 
   @Login @SmokeTest
-  Scenario: Login berhasil sebagai mahasiswa
+  Scenario: TC-LGN-001 - Login berhasil sebagai mahasiswa
     When saya memasukkan email "handoko@gmail.com" dan password "hanan123"
     And saya menekan tombol Login
     Then saya berhasil login dan diarahkan keluar dari halaman login
 
   @Login @SmokeTest
-  Scenario: Login berhasil sebagai admin
+  Scenario: TC-LGN-002 - Login berhasil sebagai admin
     When saya memasukkan email "admin@gmail.com" dan password "admin123"
     And saya menekan tombol Login
     Then saya berhasil login dan diarahkan keluar dari halaman login
 
   @Login @NegativeTest
-  Scenario: Login gagal dengan password salah
+  Scenario: TC-LGN-003 - Login gagal dengan password salah
     When saya memasukkan email "handoko@gmail.com" dan password "passwordsalah"
     And saya menekan tombol Login
     Then saya melihat pesan error pada halaman login
 
   @Login @NegativeTest
-  Scenario: Login gagal dengan email yang tidak terdaftar
+  Scenario: TC-LGN-004 - Login gagal dengan email yang tidak terdaftar
     When saya memasukkan email "tidakada@test.com" dan password "hanan123"
     And saya menekan tombol Login
     Then saya melihat pesan error pada halaman login
 
   @Login @NegativeTest
-  Scenario: Login gagal ketika field kosong
+  Scenario: TC-LGN-005 - Login gagal ketika field kosong
     When saya tidak mengisi email dan password
     And saya menekan tombol Login
     Then halaman login masih ditampilkan

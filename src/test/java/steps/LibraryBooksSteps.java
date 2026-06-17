@@ -28,6 +28,7 @@ public class LibraryBooksSteps {
         );
     }
 
+    // TC-LIB-001: Halaman katalog dimuat
     @And("saya berada di halaman katalog buku")
     public void navigateToLibraryBooks() {
         libraryBooksPage.openPage();
@@ -53,11 +54,12 @@ public class LibraryBooksSteps {
         );
     }
 
+    // TC-LIB-002 & TC-LIB-003 & TC-LIB-004: Fitur pencarian buku
     @When("mahasiswa mencari buku dengan kata kunci {string}")
     public void searchBookByKeyword(String keyword) {
         this.lastSearchedKeyword = keyword;
         libraryBooksPage.typeSearchKeyword(keyword);
-        libraryBooksPage.clickFilterJudul();
+        libraryBooksPage.pressEnterOnSearch();
     }
 
     @Then("buku dengan kata kunci {string} ditampilkan pada hasil pencarian")
@@ -93,14 +95,24 @@ public class LibraryBooksSteps {
                 libraryBooksPage.isPageLoaded(),
                 "Halaman seharusnya selesai memuat setelah pencarian dengan Enter."
         );
-        boolean hasResults = libraryBooksPage.areBooksDisplayed();
-        boolean isEmpty    = libraryBooksPage.isEmptyStateDisplayed();
+        
+        boolean isReady = false;
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 15000) {
+            if (libraryBooksPage.areBooksDisplayed() || libraryBooksPage.isEmptyStateDisplayed()) {
+                isReady = true;
+                break;
+            }
+            try { Thread.sleep(500); } catch (InterruptedException e) {}
+        }
+        
         Assertions.assertTrue(
-                hasResults || isEmpty,
+                isReady,
                 "Halaman seharusnya menampilkan hasil buku atau pesan 'Buku tidak ditemukan' untuk kata kunci: " + keyword
         );
     }
 
+    // TC-LIB-005 & TC-LIB-006: Fitur filter kategori
     @When("mahasiswa memilih kategori buku {string}")
     public void selectCategoryFilter(String categoryName) {
         libraryBooksPage.clickCategoryPill(categoryName);
@@ -123,6 +135,7 @@ public class LibraryBooksSteps {
         );
     }
 
+    // TC-LIB-007 & TC-LIB-008 & TC-LIB-009: Fitur pemesanan buku
     @Given("terdapat buku yang tersedia di halaman katalog")
     public void verifyAvailableBookExists() {
         Assertions.assertTrue(

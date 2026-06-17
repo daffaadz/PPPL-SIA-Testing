@@ -25,6 +25,7 @@ public class AdminLibrarySteps {
         );
     }
 
+    // TC-ADM-001: Dashboard dan statistik
     @When("saya berada di halaman {string}")
     public void navigateToAdminPage(String pageName) {
         adminPage.openPage();
@@ -50,6 +51,7 @@ public class AdminLibrarySteps {
         );
     }
 
+    // TC-ADM-002 & TC-ADM-003: Pencarian dan filter katalog
     @When("saya memasukkan kata kunci {string} pada kolom pencarian")
     public void searchKeyword(String keyword) {
         adminPage.searchKeyword(keyword);
@@ -137,6 +139,7 @@ public class AdminLibrarySteps {
         );
     }
 
+    // TC-ADM-004 & TC-ADM-005: Tambah buku dan kategori baru
     @Given("saya berada di form {string}")
     public void verifyInForm(String formName) {
         adminPage.openPage();
@@ -172,6 +175,7 @@ public class AdminLibrarySteps {
         );
     }
 
+    // TC-ADM-006 & TC-ADM-007: Edit dan hapus buku
     @When("saya menekan tombol ikon Edit pada salah satu buku")
     public void clickEditFirstBook() {
         adminPage.clickEditFirstBook();
@@ -218,6 +222,7 @@ public class AdminLibrarySteps {
         );
     }
 
+    // TC-ADM-008 & TC-ADM-009 & TC-ADM-010: Manajemen peminjaman
     @Given("saya berada di tab {string} pada Manajemen Peminjaman & Usulan")
     public void openTabPeminjaman(String tab) {
         if ("Peminjaman".equals(tab)) {
@@ -264,6 +269,7 @@ public class AdminLibrarySteps {
         );
     }
 
+    // TC-ADM-011 & TC-ADM-012 & TC-ADM-013: Konfirmasi peminjaman dan pengembalian
     @Given("terdapat pesanan buku dengan status {string}")
     public void assumeOrderExists(String status) {
         // Buka tab dan tunggu tabel muncul — kemudian filter agar baris yang tepat tampil
@@ -359,6 +365,7 @@ public class AdminLibrarySteps {
         );
     }
 
+    // TC-ADM-014 & TC-ADM-015 & TC-ADM-016: Manajemen usulan buku
     @Given("saya berada di halaman Manajemen Peminjaman & Usulan")
     public void openManagementPage() {
         adminPage.openPage();

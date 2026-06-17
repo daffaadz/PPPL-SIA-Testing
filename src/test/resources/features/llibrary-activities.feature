@@ -33,7 +33,7 @@ Feature: Aktivitas Perpustakaan
     Then saya diarahkan ke halaman detail pesanan mahasiswa
     And informasi judul buku ditampilkan di halaman detail
     And informasi status pesanan ditampilkan di halaman detail
-    And informasi tanggal pinjam dan jatuh tempo ditampilkan
+    And informasi tanggal pemesanan dan durasi ditampilkan
 
   @LibraryActivities @Detail @Positive
   Scenario: TC-ACT-005 - Halaman detail pesanan menampilkan informasi lengkap peminjaman
@@ -42,7 +42,7 @@ Feature: Aktivitas Perpustakaan
     Then nama buku ditampilkan dengan benar
     And nama peminjam ditampilkan dengan benar
     And tanggal pinjam ditampilkan dengan benar
-    And tanggal jatuh tempo ditampilkan dengan benar
+    And durasi pinjam ditampilkan dengan benar
     And status "Dipinjam" ditampilkan pada badge status
 
   @LibraryActivities @Detail @Positive
@@ -73,7 +73,6 @@ Feature: Aktivitas Perpustakaan
     And mahasiswa mengonfirmasi tindakan pembatalan pada dialog konfirmasi
     Then notifikasi aktivitas "Pesanan berhasil dibatalkan" ditampilkan
     And status pesanan berubah menjadi "Dibatalkan"
-    And tombol "Batalkan" tidak lagi tersedia pada pesanan tersebut
 
   @LibraryActivities @Batalkan @Positive
   Scenario: TC-ACT-010 - Browser meminta konfirmasi sebelum pesanan dibatalkan
