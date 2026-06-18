@@ -1,9 +1,5 @@
 # PPPL - Pengujian Sistem Informasi Akademik (SIA-UGN)
 
-> Repositori ini merupakan bagian dari tugas mata kuliah **Pengujian dan Perawatan Perangkat Lunak (PPPL)** yang berfokus pada pengujian fungsional Sistem Informasi Akademik (SIA) modul **Perpustakaan** menggunakan framework **Cucumber + Selenium** dengan pola desain **Page Object Model (POM)**.
-
----
-
 ## System Under Test (SUT)
 
 **Sistem Informasi Akademik (SIA) — Modul Perpustakaan** adalah aplikasi berbasis web yang digunakan untuk mengelola layanan perpustakaan perguruan tinggi secara digital. Sistem ini mencakup fitur autentikasi pengguna, manajemen koleksi buku, pemesanan, usulan buku oleh mahasiswa, serta pengelolaan data oleh admin perpustakaan.
