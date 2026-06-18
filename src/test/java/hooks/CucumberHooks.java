@@ -29,6 +29,7 @@ public class CucumberHooks {
 
     private static final DateTimeFormatter TIMESTAMP_FMT = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
     public static WebDriver driver;
+    public static ThreadLocal<String> lastScreenshotPath = new ThreadLocal<>();
 
     private static final Logger cdpLogger = Logger.getLogger("org.openqa.selenium.devtools");
     private static final Logger chromiumLogger = Logger.getLogger("org.openqa.selenium.chromium");
@@ -147,6 +148,7 @@ public class CucumberHooks {
 
             Path filePath = dir.resolve(fileName);
             Files.write(filePath, screenshotBytes);
+            lastScreenshotPath.set(filePath.toAbsolutePath().toString());
 
             System.out.println("   📸 Screenshot saved: " + filePath.toAbsolutePath());
 
