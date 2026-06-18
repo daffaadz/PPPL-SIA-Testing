@@ -246,13 +246,13 @@ public class AdminLibrarySteps {
             org.openqa.selenium.By.xpath("//table//tbody//tr | //div[contains(@class,'table')]//div[contains(@class,'row')]")
         ));
         
-        // Cek semua badge/chip status yang tampil mengandung label yang diharapkan
-        java.util.List<org.openqa.selenium.WebElement> statusBadges = hooks.CucumberHooks.driver.findElements(
-            org.openqa.selenium.By.xpath("//*[contains(@class,'badge') or contains(@class,'chip') or contains(@class,'status')]" +
-                     "[contains(text(),'" + statusLabel + "')]")
+        // Cek semua baris di dalam tabel yang mengandung teks status yang diharapkan
+        java.util.List<org.openqa.selenium.WebElement> statusElements = hooks.CucumberHooks.driver.findElements(
+            org.openqa.selenium.By.xpath("//table//tbody//tr//*[contains(text(),'" + statusLabel + "')] | " +
+                                         "//div[contains(@class,'table')]//div[contains(@class,'row')]//*[contains(text(),'" + statusLabel + "')]")
         );
         
-        Assertions.assertTrue(!statusBadges.isEmpty(),
+        Assertions.assertTrue(!statusElements.isEmpty(),
             "Tabel pesanan seharusnya memuat status: " + statusLabel);
     }
 

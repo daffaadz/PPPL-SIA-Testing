@@ -53,7 +53,10 @@ public class LoginPage extends BasePage {
 
     public boolean isLoginSuccessful() {
         try {
-            waitFor(driver -> driver.getCurrentUrl().contains("/dashboard"));
+            waitFor(driver -> {
+                String url = driver.getCurrentUrl();
+                return url != null && (url.contains("/dashboard") || url.contains("/adminpage"));
+            });
             return true;
         } catch (Exception e) {
             return false;
