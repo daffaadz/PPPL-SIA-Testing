@@ -20,7 +20,7 @@ Fitur utama yang menjadi cakupan pengujian:
 
 ## Test Suite
 
-Test suite pada proyek ini dibangun menggunakan pendekatan **Behavior-Driven Development (BDD)** dengan **Cucumber** dan **Selenium WebDriver** berbasis bahasa pemrograman Java. Pengujian difokuskan pada level **End-to-End (E2E)** — mensimulasikan interaksi nyata pengguna melalui antarmuka browser.
+Test suite pada proyek ini dibangun menggunakan pendekatan **Behavior-Driven Development (BDD)** dengan **Cucumber** dan **Selenium WebDriver** berbasis bahasa pemrograman Java. Pengujian difokuskan pada level **End-to-End (E2E)** yang mensimulasikan interaksi nyata pengguna melalui antarmuka browser.
 
 Setiap skenario pengujian ditulis dalam format **Gherkin** (`.feature`) menggunakan sintaks `Given–When–Then` yang dapat dipahami oleh semua pihak (teknis maupun non-teknis), kemudian dihubungkan ke implementasi Java melalui anotasi Cucumber (`@Given`, `@When`, `@Then`). Struktur Page Object Model (POM) digunakan untuk memisahkan lokator elemen UI dari logika skenario.
 
