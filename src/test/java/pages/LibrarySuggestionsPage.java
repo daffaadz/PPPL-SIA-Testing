@@ -22,6 +22,7 @@ public class LibrarySuggestionsPage extends BasePage {
     private static final By ERROR_AUTHOR            = By.xpath("//*[contains(text(),'Nama penulis wajib diisi')]");
     private static final By ERROR_REASON            = By.xpath("//*[contains(text(),'Alasan usulan')]");
     private static final By ERROR_REASON_MIN_CHAR   = By.xpath("//*[contains(text(),'minimal 20 karakter')]");
+    private static final By CHAR_COUNTER            = By.xpath("//p[contains(text(),'karakter') and not(contains(text(),'minimal'))]");
 
     public LibrarySuggestionsPage openPage() {
         navigateToPath(config.TestConfig.PATH_LIBRARY_SUGGESTIONS);
