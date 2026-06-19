@@ -75,4 +75,11 @@ public class LibrarySuggestionsSteps {
                 suggestionsPage.isReasonErrorDisplayed(),
                 "Setidaknya satu pesan error validasi form seharusnya ditampilkan.");
     }
+
+    // TC-SUG-004: Validasi karakter minimal alasan usulan
+    @Then("pesan error validasi form usulan untuk minimal karakter ditampilkan")
+    public void verifyReasonMinCharError() {
+        Assertions.assertTrue(suggestionsPage.isReasonMinCharErrorDisplayed(),
+                "Pesan error 'Alasan usulan minimal 20 karakter' seharusnya ditampilkan.");
+    }
 }

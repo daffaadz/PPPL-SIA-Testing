@@ -23,3 +23,9 @@ Feature: Usulan Buku Perpustakaan
   Scenario: TC-SUG-003 - Gagal mengirim usulan buku saat form tidak diisi dengan lengkap
     When mahasiswa menekan tombol kirim usulan
     Then pesan error validasi form usulan ditampilkan
+
+  @Library @KirimUsulan @NegativeTest
+  Scenario: TC-SUG-004 - Gagal mengirim usulan buku saat alasan kurang dari 20 karakter
+    When mahasiswa mengisi form usulan dengan judul "Buku A", penulis "Author", dan alasan "Singkat saja"
+    And mahasiswa menekan tombol kirim usulan
+    Then pesan error validasi form usulan untuk minimal karakter ditampilkan

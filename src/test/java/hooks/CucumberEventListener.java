@@ -113,7 +113,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
 
     private void onTestRunFinished(TestRunFinished event) {
         if (!failedReports.isEmpty()) {
-            String outputPath = "target/bug-reports/bug_report.pdf";
+            String outputPath = "bug-report/bug_report.pdf";
             System.out.println("   [DEBUG] Test run finished. Generating combined PDF report at: " + outputPath);
             try {
                 BugReportGenerator.generatePdfReport(new ArrayList<>(failedReports), outputPath);

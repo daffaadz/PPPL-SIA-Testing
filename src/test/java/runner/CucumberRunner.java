@@ -8,7 +8,7 @@ import org.junit.platform.suite.api.Suite;
 import static io.cucumber.junit.platform.engine.Constants.*;
 
 /**
- * CucumberRunner — JUnit Platform Suite runner for the SIA-UGN UKT test suite.
+ * CucumberRunner — JUnit Platform Suite runner for the SIA-UGN test suite.
  */
 @Suite
 @IncludeEngines("cucumber")
@@ -19,7 +19,7 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 )
 @ConfigurationParameter(
         key = PLUGIN_PROPERTY_NAME,
-        value = "pretty, html:target/cucumber-reports/cucumber-report.html, json:target/cucumber-reports/cucumber-report.json"
+        value = "pretty, html:target/cucumber-reports/cucumber-report.html, json:target/cucumber-reports/cucumber-report.json, hooks.CucumberEventListener"
 )
 @ConfigurationParameter(
         key = FILTER_TAGS_PROPERTY_NAME,

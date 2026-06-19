@@ -17,11 +17,11 @@ public class LibrarySuggestionsPage extends BasePage {
     private static final By INPUT_AUTHOR            = By.cssSelector("input[placeholder*='nama penulis']");
     private static final By TEXTAREA_REASON         = By.cssSelector("textarea[placeholder*='penting']");
     private static final By BUTTON_SUBMIT           = By.xpath("//button[contains(normalize-space(text()),'Kirim Usulan') or contains(.,'Kirim Usulan')]");
-    private static final By CHAR_COUNTER            = By.xpath("//*[contains(text(),' karakter') and not(contains(text(),'minimal'))]");
     // Validation Errors
     private static final By ERROR_TITLE             = By.xpath("//*[contains(text(),'Judul buku wajib diisi')]");
     private static final By ERROR_AUTHOR            = By.xpath("//*[contains(text(),'Nama penulis wajib diisi')]");
     private static final By ERROR_REASON            = By.xpath("//*[contains(text(),'Alasan usulan')]");
+    private static final By ERROR_REASON_MIN_CHAR   = By.xpath("//*[contains(text(),'minimal 20 karakter')]");
 
     public LibrarySuggestionsPage openPage() {
         navigateToPath(config.TestConfig.PATH_LIBRARY_SUGGESTIONS);
@@ -127,6 +127,10 @@ public class LibrarySuggestionsPage extends BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public boolean isReasonMinCharErrorDisplayed() {
+        return isDisplayed(ERROR_REASON_MIN_CHAR);
     }
 
     public boolean isHistorySectionDisplayed() {
