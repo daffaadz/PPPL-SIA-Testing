@@ -126,6 +126,7 @@ Test suite terdiri dari **39 skenario** yang tersebar di 5 modul, mencakup skena
 | TC-SUG-001 | Halaman usulan buku berhasil dimuat | Login sebagai mahasiswa, berada di halaman usulan buku | Amati halaman usulan buku | Halaman usulan buku ditampilkan dengan benar beserta form usulan | Positive / Smoke |
 | TC-SUG-002 | Berhasil mengirim usulan buku dengan data valid | Login sebagai mahasiswa, berada di halaman usulan buku | 1. Isi judul "Machine Learning dengan Python", penulis "Jane Author", alasan "Dibutuhkan untuk referensi mata kuliah AI" <br> 2. Tekan tombol kirim usulan | Usulan berhasil dikirim; form direset; riwayat usulan menampilkan buku "Machine Learning dengan Python" | Positive |
 | TC-SUG-003 | Gagal mengirim usulan saat form tidak lengkap | Login sebagai mahasiswa, berada di halaman usulan buku | Tekan tombol kirim usulan tanpa mengisi form | Pesan error validasi form usulan ditampilkan | Negative |
+| TC-SUG-004 | Gagal mengirim usulan saat alasan kurang dari 20 karakter | Login sebagai mahasiswa, berada di halaman usulan buku | 1. Isi form usulan dengan alasan < 20 karakter<br>2. Tekan tombol kirim | Pesan error validasi form usulan untuk minimal karakter ditampilkan | Negative |
 
 ---
 
@@ -137,8 +138,8 @@ Test suite terdiri dari **39 skenario** yang tersebar di 5 modul, mencakup skena
 | Aktivitas Perpustakaan | 10 | 10 | 1 | 0 |
 | Katalog Buku & Pemesanan | 9 | 7 | 2 | 1 |
 | Manajemen Admin | 16 | 16 | 0 | 0 |
-| Usulan Buku | 3 | 2 | 1 | 1 |
-| **Total** | **43** | **37** | **7** | **4** |
+| Usulan Buku | 4 | 2 | 2 | 1 |
+| **Total** | **44** | **37** | **8** | **4** |
 
 > **Catatan:** Beberapa skenario memiliki lebih dari satu tag jenis (misal Positive + Smoke), sehingga total per kolom bisa melebihi total keseluruhan.
 
